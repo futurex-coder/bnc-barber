@@ -109,7 +109,14 @@ export default async function LocationDetail({
               <h2 className="mb-4 font-display text-xl uppercase tracking-wide text-ink">
                 Работно време
               </h2>
-              <LocationHours loc={loc} />
+              {soon ? (
+                <p className="text-sm leading-relaxed text-grey">
+                  Работното време ще обявим при откриването. Флагманът в Здравец
+                  Изток работи всеки ден — до тогава заповядай там.
+                </p>
+              ) : (
+                <LocationHours loc={loc} />
+              )}
             </div>
 
             <div className="rounded-brand border border-hairline bg-base-elevated p-6">

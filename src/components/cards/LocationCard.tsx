@@ -1,20 +1,12 @@
 import Link from "next/link";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { FreshaButton } from "@/components/booking/FreshaButton";
-import { MapPinIcon, ArrowUpRightIcon, ClockIcon } from "@/components/ui/icons";
+import { TodayStatus } from "@/components/cards/TodayStatus";
+import { MapPinIcon, ArrowUpRightIcon } from "@/components/ui/icons";
 import type { Location } from "@/data/site";
-
-/** Is the location open right now (Europe/Sofia)? Best-effort, display-only. */
-function todayHours(loc: Location) {
-  const names = ["Неделя", "Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък", "Събота"];
-  const now = new Date();
-  const dayName = names[now.getUTCDay()];
-  return loc.hours.find((h) => h.day === dayName);
-}
 
 export function LocationCard({ loc }: { loc: Location }) {
   const soon = loc.status === "coming-soon";
-  const today = todayHours(loc);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
@@ -46,12 +38,7 @@ export function LocationCard({ loc }: { loc: Location }) {
             <MapPinIcon className="h-4 w-4 shrink-0 text-gold" />
             {soon ? "Русе · адрес скоро" : `${loc.addressLine}, ${loc.city}`}
           </p>
-          {!soon && today ? (
-            <p className="inline-flex items-center gap-2 text-sm text-grey">
-              <ClockIcon className="h-4 w-4 shrink-0 text-gold" />
-              {today.open ? `Днес ${today.open}–${today.close}` : "Днес почивен ден"}
-            </p>
-          ) : null}
+          {!soon ? <TodayStatus loc={loc} /> : null}
         </div>
 
         <p className="text-sm leading-relaxed text-grey/90">{loc.blurb}</p>

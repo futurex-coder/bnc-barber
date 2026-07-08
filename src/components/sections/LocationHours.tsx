@@ -1,5 +1,8 @@
+"use client";
+
 import { type Location } from "@/data/site";
 import { cn } from "@/lib/utils";
+import { useTodayIndex } from "@/lib/useToday";
 
 const DAY_INDEX: Record<string, number> = {
   Неделя: 0,
@@ -12,7 +15,7 @@ const DAY_INDEX: Record<string, number> = {
 };
 
 export function LocationHours({ loc }: { loc: Location }) {
-  const todayIdx = new Date().getUTCDay();
+  const todayIdx = useTodayIndex();
 
   return (
     <table className="w-full text-sm">
