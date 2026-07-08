@@ -85,7 +85,7 @@ export function AcademyBlock({ withEmbed = true }: { withEmbed?: boolean }) {
               <GraduationIcon className="h-4 w-4 text-gold" />
               Безплатна консултация — да видим дали си пасваме.
             </div>
-            {withEmbed ? (
+            {withEmbed && calcom.embedEnabled ? (
               <CalEmbed />
             ) : (
               <div className="rounded-brand border border-hairline bg-white/[0.02] p-8">

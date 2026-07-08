@@ -28,8 +28,9 @@ const BG_MONTHS = [
   "дек",
 ];
 
-/** Format an ISO date as "19 юли". */
+/** Format an ISO date (YYYY-MM-DD) as "19 юли". Parsed as UTC so the displayed
+ *  calendar date matches the string regardless of the runtime timezone. */
 export function formatEventDate(iso: string): { day: string; month: string } {
-  const d = new Date(iso + "T00:00:00");
+  const d = new Date(iso + "T00:00:00Z");
   return { day: String(d.getUTCDate()), month: BG_MONTHS[d.getUTCMonth()] };
 }

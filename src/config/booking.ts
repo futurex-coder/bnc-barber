@@ -30,12 +30,23 @@ export const freshaByBarber: Record<string, string | undefined> = {
   kris: undefined,
 };
 
-/** Cal.com link for the Academy consult call. */
+/**
+ * Cal.com link for the Academy consult call.
+ *
+ * `embedEnabled` gates the inline @calcom/embed-react widget. It is OFF by
+ * default because `bonnie-clyde/consult` is still a PLACEHOLDER account — the
+ * embed would 404 and log console errors against a non-existent booking page.
+ * Until the real Cal.com account is live we show the styled link-out fallback
+ * (which works today). Flip this to `true` — or set NEXT_PUBLIC_CALCOM_EMBED=1
+ * — the moment the real account exists to turn on the live embed. See PROGRESS.
+ */
 export const calcom = {
   /** calLink used by @calcom/embed-react, e.g. "bonnie-clyde/consult". */
   link: "bonnie-clyde/consult",
   /** Full URL fallback for no-JS / embed failure. */
   url: "https://cal.com/bonnie-clyde/consult",
+  /** Whether the inline embed is safe to mount (real account exists). */
+  embedEnabled: process.env.NEXT_PUBLIC_CALCOM_EMBED === "1",
 } as const;
 
 /** The flagship Fresha URL, used as the global default CTA. */
