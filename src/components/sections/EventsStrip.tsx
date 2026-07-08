@@ -70,16 +70,21 @@ export function EventsStrip() {
           </AnimatePresence>
         </div>
 
-        <div className="hidden shrink-0 gap-1.5 sm:flex">
+        <div className="hidden shrink-0 sm:flex">
           {list.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setI(idx)}
               aria-label={`Покажи събитие ${idx + 1}`}
-              className={`h-1.5 rounded-full transition-all ${
-                idx === active ? "w-5 bg-gold" : "w-1.5 bg-grey/30"
-              }`}
-            />
+              aria-current={idx === active ? "true" : undefined}
+              className="grid h-6 w-6 place-items-center"
+            >
+              <span
+                className={`h-1.5 rounded-full transition-all ${
+                  idx === active ? "w-5 bg-gold" : "w-1.5 bg-grey/30"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </Container>

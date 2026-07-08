@@ -157,6 +157,49 @@ body {
   animation: marquee 32s linear infinite;
 }
 
+/* Hero headline mask-reveal — CSS-driven so it paints in SSR and animates on
+   first paint (no JS/hydration gate). This keeps the LCP element fast. */
+@keyframes lineRise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.hero-line {
+  display: block;
+  transform: translateY(110%);
+  animation: lineRise 0.9s var(--ease-brand) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-line {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Hero content fade-up — CSS-driven, so above-the-fold hero text (incl. the
+   LCP paragraph) paints in SSR and never waits on hydration. */
+@keyframes heroFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-fade {
+  animation: heroFade 0.7s var(--ease-brand) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade {
+    animation: none;
+  }
+}
+
 /* Subtle floating gradient for hero ambience */
 @keyframes drift {
   0%,

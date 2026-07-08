@@ -10,7 +10,7 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600"],
   display: "swap",
 });
 
@@ -24,7 +24,7 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin", "cyrillic"],
   style: ["italic"],
-  weight: ["500", "600"],
+  weight: ["500"],
   display: "swap",
 });
 

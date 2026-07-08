@@ -9,7 +9,6 @@ import { FreshaButton } from "@/components/booking/FreshaButton";
 import { Stars } from "@/components/ui/Stars";
 import { ArrowRightIcon, GraduationIcon, ChevronDownIcon } from "@/components/ui/icons";
 import { aggregateRating } from "@/data/site";
-import { EASE } from "@/lib/motion";
 
 /** Headline built from lines that mask-reveal upward on load. */
 const LINES: { text: string; accent?: string }[] = [
@@ -28,19 +27,6 @@ export function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "18%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0]);
 
-  const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
-  };
-  const line = {
-    hidden: { y: reduce ? 0 : "110%" },
-    show: { y: "0%", transition: { duration: 0.9, ease: EASE } },
-  };
-  const fade = {
-    hidden: { opacity: 0, y: reduce ? 0 : 16 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
-  };
-
   return (
     <section
       ref={ref}
@@ -57,59 +43,61 @@ export function Hero() {
       </motion.div>
 
       <Container className="relative">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          style={{ opacity }}
-          className="max-w-4xl"
-        >
-          <motion.p
-            variants={fade}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-hairline bg-white/[0.03] px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-grey backdrop-blur"
+        <motion.div style={{ opacity }} className="max-w-4xl">
+          <p
+            className="hero-fade mb-6 inline-flex items-center gap-2 rounded-full border border-hairline bg-white/[0.03] px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-grey backdrop-blur"
+            style={{ animationDelay: "0.05s" }}
           >
             <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Барбершоп &amp; Академия · Русе
-          </motion.p>
+          </p>
 
           <h1 className="font-display text-[15vw] leading-[0.92] text-ink sm:text-7xl md:text-8xl lg:text-[7.5rem]">
             {LINES.map((l, i) => (
               <span key={i} className="block overflow-hidden pb-[0.06em]">
-                <motion.span variants={line} className="block">
+                {/* CSS-driven mask reveal: visible in SSR, animates on first
+                    paint so it never gates LCP behind hydration. */}
+                <span
+                  className="hero-line"
+                  style={{ animationDelay: `${0.15 + i * 0.12}s` }}
+                >
                   {l.text}
                   {l.accent ? (
                     <span className="accent text-gold-gradient">{l.accent}</span>
                   ) : null}
-                </motion.span>
+                </span>
               </span>
             ))}
           </h1>
 
-          <motion.p
-            variants={fade}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-grey"
+          <p
+            className="hero-fade mt-7 max-w-xl text-lg leading-relaxed text-grey"
+            style={{ animationDelay: "0.4s" }}
           >
             Прецизни подстрижки и оформяне на брада — и школа, която прави бръснари.
             Избери за какво идваш.
-          </motion.p>
+          </p>
 
-          <motion.div variants={fade} className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <div
+            className="hero-fade mt-9 flex flex-col gap-3 sm:flex-row"
+            style={{ animationDelay: "0.52s" }}
+          >
             <FreshaButton size="lg" label="Запази час" />
             <Button href="/akademiya" variant="outline" size="lg">
               <GraduationIcon className="h-4 w-4" />
               Влез в Академията
               <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
             </Button>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={fade}
-            className="mt-10 flex items-center gap-3 text-sm text-grey"
+          <div
+            className="hero-fade mt-10 flex items-center gap-3 text-sm text-grey"
+            style={{ animationDelay: "0.64s" }}
           >
             <Stars value={aggregateRating.value} size="md" />
             <span className="font-medium text-ink">{aggregateRating.value}</span>
             <span aria-hidden className="text-grey/40">·</span>
             <span>{aggregateRating.count}+ отзива в Google &amp; Fresha</span>
-          </motion.div>
+          </div>
         </motion.div>
       </Container>
 

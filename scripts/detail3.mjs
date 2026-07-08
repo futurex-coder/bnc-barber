@@ -1,5 +1,5 @@
 import { chromium } from "playwright";
-const BASE = "http://localhost:3306";
+const BASE = "http://localhost:3309";
 const b = await chromium.launch();
 async function shot(name, path, w, h, y=0){
   const ctx = await b.newContext({ viewport:{width:w,height:h}});
