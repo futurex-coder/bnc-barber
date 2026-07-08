@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotionSafe";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { FreshaButton } from "@/components/booking/FreshaButton";
@@ -18,7 +19,7 @@ const LINES: { text: string; accent?: string }[] = [
 ];
 
 export function Hero() {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,

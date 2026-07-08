@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotionSafe";
 import { Container } from "@/components/ui/Container";
 import { events } from "@/data/site";
 import { formatEventDate } from "@/lib/utils";
@@ -13,7 +14,7 @@ export function EventsStrip() {
   // `null` on server / first render → show all (deterministic SSR). After
   // mount we drop past events so "Предстои" (upcoming) stays truthful.
   const now = useClientNow();
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
 
   const list = useMemo(() => {
     if (now === null) return events;

@@ -46,6 +46,20 @@ test("primary nav is keyboard reachable and booking CTA points to Fresha", async
   await expect(cta).toHaveAttribute("href", /fresha\.com/);
 });
 
+test.describe("reduced motion", () => {
+  test.use({ reducedMotion: "reduce" });
+  test("home hydrates with no errors under prefers-reduced-motion", async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto("/", { waitUntil: "networkidle" });
+    await expect(page.locator("h1")).toBeVisible();
+    expect(errors, "no hydration/console errors under reduced motion").toEqual([]);
+  });
+});
+
 test("skip link is the first focusable element", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");

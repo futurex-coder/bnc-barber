@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotionSafe";
 import { Container, Section, SectionHeader } from "@/components/ui/Section";
 import { faqs } from "@/data/site";
 import { ChevronDownIcon } from "@/components/ui/icons";
@@ -9,7 +10,7 @@ import { JsonLdScript } from "@/components/seo/JsonLd";
 
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
 
   const faqSchema = {
     "@context": "https://schema.org",

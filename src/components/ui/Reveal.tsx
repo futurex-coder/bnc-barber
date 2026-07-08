@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotionSafe";
 
 /**
  * Scroll-triggered reveal. Wraps children in a motion element that animates
@@ -22,7 +23,7 @@ export function Reveal({
   amount?: number;
   once?: boolean;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const MotionTag = motion[as];
 
   if (reduce) {
@@ -63,7 +64,7 @@ export function RevealGroup({
   as?: "div" | "ul" | "section";
   id?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const MotionTag = motion[as];
 
   if (reduce) {
@@ -100,7 +101,7 @@ export function RevealItem({
   variants?: Variants;
   as?: "div" | "li" | "article";
 }) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const MotionTag = motion[as];
 
   if (reduce) {

@@ -5,6 +5,7 @@ import { SITE, SITE_URL } from "@/config/site";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
+import { MotionProvider } from "@/components/providers/MotionProvider";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -80,11 +81,13 @@ export default function RootLayout({
           Към съдържанието
         </a>
         <OrganizationJsonLd />
-        <Nav />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <MotionProvider>
+          <Nav />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

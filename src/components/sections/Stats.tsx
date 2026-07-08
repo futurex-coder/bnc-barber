@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion, animate } from "framer-motion";
+import { useInView, animate } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotionSafe";
 import { Container } from "@/components/ui/Container";
 import { stats, type Stat } from "@/data/site";
 
@@ -28,14 +29,16 @@ function formatValue(n: number, target: number) {
 function StatCell({ stat }: { stat: Stat }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
-  const reduce = useReducedMotion();
-  const [display, setDisplay] = useState(reduce ? stat.value : 0);
+  const reduce = usePrefersReducedMotion();
+  // Always start at 0 (identical on server + first client render → no
+  // hydration mismatch). When in view we animate up; reduced-motion users get
+  // duration 0, i.e. the final number appears instantly with no count-up.
+  const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    // Reduced-motion users already see the final value (initial state).
-    if (!inView || reduce) return;
+    if (!inView) return;
     const controls = animate(0, stat.value, {
-      duration: 1.6,
+      duration: reduce ? 0 : 1.6,
       ease: [0.22, 1, 0.36, 1],
       onUpdate: (v) => setDisplay(v),
     });
