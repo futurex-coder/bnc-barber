@@ -171,6 +171,17 @@ body {
   }
 }
 
+/* No-JS safety: scroll-reveal wrappers render with inline opacity:0 during
+   SSR (Framer Motion's hidden state). If JS never runs, force them visible so
+   content is never stuck hidden. */
+@media (scripting: none) {
+  main [style*="opacity:0"],
+  main [style*="opacity: 0"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Skip link */
 .skip-link {
   position: fixed;

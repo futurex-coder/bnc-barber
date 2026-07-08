@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "Историята на Bonnie & Clyde — барбершоп и академия в Русе. Занаят, отношение и стол, който е само твой.",
   alternates: { canonical: "/za-nas" },
   openGraph: {
+    url: "/za-nas",
     title: "За нас · Bonnie & Clyde",
     description: "Занаят, отношение и стол, който е само твой.",
   },

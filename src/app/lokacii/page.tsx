@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "Салоните на Bonnie & Clyde в Русе — флагманът в Здравец Изток (отворен) и вторият адрес в Център (очаквай скоро).",
   alternates: { canonical: "/lokacii" },
   openGraph: {
+    url: "/lokacii",
     title: "Локации · Bonnie & Clyde",
     description: "Два адреса в Русе — Здравец Изток и Център.",
   },

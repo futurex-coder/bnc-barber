@@ -8,7 +8,8 @@ import { InstagramIcon, PhoneIcon, MapPinIcon } from "@/components/ui/icons";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 
 export function Footer() {
-  const year = 2026;
+  // Server component → evaluated at build; refreshes on each deploy.
+  const year = new Date().getFullYear();
   const flagship = locations[0];
 
   return (

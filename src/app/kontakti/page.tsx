@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     "Свържи се с Bonnie & Clyde в Русе — телефон 0882 031 790, Instagram, адрес и онлайн резервация.",
   alternates: { canonical: "/kontakti" },
   openGraph: {
+    url: "/kontakti",
     title: "Контакти · Bonnie & Clyde",
     description: "Телефон, Instagram, адрес и онлайн резервация.",
   },
@@ -31,7 +32,7 @@ export default function KontaktiPage() {
         eyebrow="Контакти"
         title={
           <>
-            Чуй ни, <span className="accent text-gold-gradient">намери ни.</span>
+            Обади се, <span className="accent text-gold-gradient">намери ни.</span>
           </>
         }
         lead="Най-бързо е онлайн през Fresha. За всичко друго — обади се или пиши в Instagram."

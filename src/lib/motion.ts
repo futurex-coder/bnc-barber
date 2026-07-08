@@ -20,21 +20,3 @@ export const fadeUp: Variants = {
   },
 };
 
-/** Mask reveal for headline lines (rises from below a clip). */
-export const lineReveal: Variants = {
-  hidden: { y: "110%" },
-  show: {
-    y: "0%",
-    transition: { duration: 0.9, ease: EASE },
-  },
-};
-
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.8, ease: EASE } },
-};
-
-export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.96 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: EASE } },
-};

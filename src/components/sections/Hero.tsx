@@ -120,7 +120,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center"
       >
         <span className="flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-grey">
-          Скрол
+          Надолу
           <motion.span
             animate={reduce ? {} : { y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}

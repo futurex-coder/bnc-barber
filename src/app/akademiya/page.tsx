@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "Академия Bonnie & Clyde в Русе — практическо обучение за бръснари върху реални клиенти, под око на ментор. Запиши безплатна консултация.",
   alternates: { canonical: "/akademiya" },
   openGraph: {
+    url: "/akademiya",
     title: "Академия · Bonnie & Clyde",
     description: "Стани бръснар по занаята. Практика върху реални клиенти, малки групи.",
   },
@@ -114,7 +115,7 @@ export default function AkademiyaPage() {
         </Container>
       </Section>
 
-      <AcademyBlock withEmbed />
+      <AcademyBlock withEmbed showModules={false} />
 
       <Section>
         <Container className="flex flex-col items-center gap-6 text-center">

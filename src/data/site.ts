@@ -146,10 +146,10 @@ export const locations: Location[] = [
 export const barbers: Barber[] = [
   {
     slug: "alex",
-    name: "Alex",
-    role: "Основател & мастер бръснар",
-    tagline: "Founder. Fades, които не прощават грешки.",
-    bio: "Александър започна Bonnie & Clyde с една идея — че подстрижката е ритуал, не услуга. Прецизни fade-ове, чисти линии и око, което забелязва всеки милиметър. Когато не е зад стола, преподава в Академията.",
+    name: "Алекс",
+    role: "Основател и майстор бръснар",
+    tagline: "Фейдове, които не прощават грешки.",
+    bio: "Алекс започна Bonnie & Clyde с една идея — че подстрижката е ритуал, не услуга. Прецизни фейдове, чисти линии и око, което забелязва всеки милиметър. Когато не е зад стола, преподава в Академията.",
     instagram: { handle: "alexx_cutzz", url: "https://instagram.com/alexx_cutzz" },
     locationSlug: "zdravets-iztok",
     specialties: ["Skin fade", "Класически бръснач", "Оформяне на брада"],
@@ -158,9 +158,9 @@ export const barbers: Barber[] = [
   {
     slug: "martin",
     name: "Мартин", // NEEDS YOU: real name/handle/bio
-    role: "Senior бръснар",
+    role: "Старши бръснар",
     tagline: "Текстура, поток и класика с характер.",
-    bio: "Мартин работи бавно там, където трябва, и бързо там, където може. Силен е в текстурни, естествено изглеждащи подстрижки и в класическото мъжко оформяне. Placeholder — заменяемо с истинска биография.",
+    bio: "Мартин работи бавно там, където трябва, и бързо там, където може. Силен е в текстурни, естествено изглеждащи подстрижки и в класическото мъжко оформяне.",
     instagram: { handle: "bonnienclyde_ruse", url: "https://instagram.com/bonnienclyde_ruse" },
     locationSlug: "zdravets-iztok",
     specialties: ["Scissor work", "Класика", "Brush styling"],
@@ -170,9 +170,9 @@ export const barbers: Barber[] = [
   {
     slug: "kris",
     name: "Крис", // NEEDS YOU: real name/handle/bio
-    role: "Бръснар & инструктор в Академията",
+    role: "Бръснар и инструктор в Академията",
     tagline: "Младата ръка с най-стабилната линия.",
-    bio: "Крис премина през Академията и остана. Прецизен по природа, обича чистите контури и работата с бръснач. Помага в обучението на новите випуски. Placeholder — заменяемо с истинска биография.",
+    bio: "Крис премина през Академията и остана. Прецизен по природа, обича чистите контури и работата с бръснач, и помага в обучението на новите випуски.",
     instagram: { handle: "bonnienclyde_ruse", url: "https://instagram.com/bonnienclyde_ruse" },
     locationSlug: "zdravets-iztok",
     specialties: ["Line-up", "Hot towel", "Обучение"],
@@ -286,7 +286,7 @@ export const academyModules: AcademyModule[] = [
     number: "05",
     title: "Клиент и стол",
     summary: "Консултация, комуникация и изграждане на редовни клиенти.",
-    points: ["Консултация", "Работа с възражения", "Retention"],
+    points: ["Консултация", "Работа с възражения", "Задържане на клиенти"],
   },
   {
     number: "06",

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "Работи на Bonnie & Clyde — fade-ове, бради и ежедневието в салона в Русе.",
   alternates: { canonical: "/galeriya" },
   openGraph: {
+    url: "/galeriya",
     title: "Галерия · Bonnie & Clyde",
     description: "Fade-ове, бради и ежедневието в салона.",
   },

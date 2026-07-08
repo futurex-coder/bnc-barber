@@ -36,7 +36,11 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `/lokacii/${loc.slug}` },
-    openGraph: { title: `${loc.name} · Bonnie & Clyde`, description },
+    openGraph: {
+      url: `/lokacii/${loc.slug}`,
+      title: `${loc.name} · Bonnie & Clyde`,
+      description,
+    },
   };
 }
 

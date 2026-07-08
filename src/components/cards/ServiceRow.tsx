@@ -6,9 +6,9 @@ export function ServiceRow({ service }: { service: Service }) {
     <div className="group flex items-baseline gap-4 py-5">
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-display text-xl uppercase tracking-wide text-ink transition-colors group-hover:text-gold-bright">
+          <h4 className="font-display text-xl uppercase tracking-wide text-ink transition-colors group-hover:text-gold-bright">
             {service.name}
-          </h3>
+          </h4>
           {service.popular ? (
             <span className="rounded-full border border-gold/30 px-2 py-0.5 text-[10px] uppercase tracking-wider text-gold">
               Топ

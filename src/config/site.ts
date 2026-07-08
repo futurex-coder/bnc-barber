@@ -14,6 +14,7 @@ export const SITE = {
   lang: "bg",
   phone: "0882 031 790",
   phoneHref: "tel:+359882031790",
+  phoneE164: "+359882031790",
   email: "hello@bonnieclyde.bg", // NEEDS YOU: placeholder
   instagram: {
     shop: { handle: "bonnienclyde_ruse", url: "https://instagram.com/bonnienclyde_ruse" },

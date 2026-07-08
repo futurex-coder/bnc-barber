@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "Запознай се с бръснарите на Bonnie & Clyde в Русе. Избери своя майстор и запази час директно с него.",
   alternates: { canonical: "/ekip" },
   openGraph: {
+    url: "/ekip",
     title: "Екипът · Bonnie & Clyde",
     description: "Ръцете зад стола — избери своя бръснар и запази час.",
   },

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { FreshaButton } from "@/components/booking/FreshaButton";
-import { InstagramIcon, ArrowUpRightIcon } from "@/components/ui/icons";
+import { InstagramIcon } from "@/components/ui/icons";
 import type { Barber } from "@/data/site";
 
 export function BarberCard({ barber }: { barber: Barber }) {
@@ -62,17 +62,5 @@ export function BarberCard({ barber }: { barber: Barber }) {
         </div>
       </div>
     </article>
-  );
-}
-
-/** Compact link used in lists. */
-export function BarberMiniLink({ barber }: { barber: Barber }) {
-  return (
-    <Link
-      href={`/ekip#${barber.slug}`}
-      className="inline-flex items-center gap-1.5 text-sm text-ink/80 hover:text-gold-bright"
-    >
-      {barber.name} <ArrowUpRightIcon className="h-3.5 w-3.5" />
-    </Link>
   );
 }

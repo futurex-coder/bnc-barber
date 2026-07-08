@@ -34,6 +34,7 @@ function openingHours(loc: Location) {
 }
 
 export function hairSalonSchema(loc: Location) {
+  const isOpen = loc.status === "open";
   return {
     "@context": "https://schema.org",
     "@type": "HairSalon",
@@ -41,17 +42,30 @@ export function hairSalonSchema(loc: Location) {
     name: `${SITE.name} — ${loc.name}`,
     image: `${SITE_URL}/lokacii/${loc.slug}/opengraph-image`,
     url: `${SITE_URL}/lokacii/${loc.slug}`,
-    telephone: SITE.phone,
+    telephone: SITE.phoneE164,
     priceRange: loc.priceRange,
     currenciesAccepted: "BGN",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: loc.addressLine,
-      addressLocality: loc.city,
-      addressRegion: "Русе",
-      postalCode: loc.postalCode,
-      addressCountry: "BG",
-    },
+    // A coming-soon location has only a placeholder street address — emitting
+    // it would be invalid structured data, so include address only when open.
+    ...(isOpen
+      ? {
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: loc.addressLine,
+            addressLocality: loc.city,
+            addressRegion: "Русе",
+            postalCode: loc.postalCode,
+            addressCountry: "BG",
+          },
+        }
+      : {
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: loc.city,
+            addressRegion: "Русе",
+            addressCountry: "BG",
+          },
+        }),
     ...(loc.geo
       ? {
           geo: {
@@ -85,7 +99,9 @@ export function OrganizationJsonLd() {
         "@id": `${SITE_URL}#org`,
         name: SITE.name,
         url: SITE_URL,
-        telephone: SITE.phone,
+        telephone: SITE.phoneE164,
+        logo: `${SITE_URL}/opengraph-image`,
+        image: `${SITE_URL}/opengraph-image`,
         sameAs: [SITE.instagram.shop.url, SITE.instagram.barber.url],
       },
       hairSalonSchema(locations[0]),

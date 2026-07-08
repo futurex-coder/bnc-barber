@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     "Пълно меню на Bonnie & Clyde в Русе — подстрижки, fade, оформяне на брада, кралско бръснене и комбо пакети с продължителност и цена.",
   alternates: { canonical: "/uslugi" },
   openGraph: {
+    url: "/uslugi",
     title: "Услуги & цени · Bonnie & Clyde",
     description:
       "Подстрижки, fade, брада и комбо пакети — ясно меню с продължителност и цена.",

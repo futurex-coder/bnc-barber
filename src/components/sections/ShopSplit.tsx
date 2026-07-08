@@ -24,7 +24,7 @@ export function ShopSplit() {
             </div>
             <div className="absolute -bottom-6 -right-4 hidden w-44 rotate-2 rounded-brand border border-hairline bg-base-elevated p-4 shadow-xl sm:block">
               <p className="font-display text-3xl text-gold-bright">B&amp;C</p>
-              <p className="text-xs text-grey">Est. Русе · собствен стил</p>
+              <p className="text-xs text-grey">Русе · собствен стил</p>
             </div>
           </Reveal>
 

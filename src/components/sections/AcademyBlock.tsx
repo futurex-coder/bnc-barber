@@ -11,7 +11,14 @@ import { GraduationIcon, ArrowRightIcon } from "@/components/ui/icons";
  * The Academy funnel — deliberately distinct from the client/Fresha world:
  * near-black, oxblood accents, its own booking system (Cal.com).
  */
-export function AcademyBlock({ withEmbed = true }: { withEmbed?: boolean }) {
+export function AcademyBlock({
+  withEmbed = true,
+  showModules = true,
+}: {
+  withEmbed?: boolean;
+  /** Hide the module grid when the page already renders its own programme. */
+  showModules?: boolean;
+}) {
   return (
     <section
       id="akademiya"
@@ -52,22 +59,24 @@ export function AcademyBlock({ withEmbed = true }: { withEmbed?: boolean }) {
               </div>
             </Reveal>
 
-            <RevealGroup className="mt-2 grid gap-3 sm:grid-cols-2">
-              {academyModules.map((m) => (
-                <RevealItem
-                  key={m.number}
-                  className="rounded-brand border border-hairline bg-white/[0.02] p-4 transition-colors hover:border-gold/30"
-                >
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-display text-sm text-gold">{m.number}</span>
-                    <h3 className="font-display text-base uppercase tracking-wide text-ink">
-                      {m.title}
-                    </h3>
-                  </div>
-                  <p className="mt-1.5 text-sm text-grey">{m.summary}</p>
-                </RevealItem>
-              ))}
-            </RevealGroup>
+            {showModules ? (
+              <RevealGroup className="mt-2 grid gap-3 sm:grid-cols-2">
+                {academyModules.map((m) => (
+                  <RevealItem
+                    key={m.number}
+                    className="rounded-brand border border-hairline bg-white/[0.02] p-4 transition-colors hover:border-gold/30"
+                  >
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-display text-sm text-gold">{m.number}</span>
+                      <h3 className="font-display text-base uppercase tracking-wide text-ink">
+                        {m.title}
+                      </h3>
+                    </div>
+                    <p className="mt-1.5 text-sm text-grey">{m.summary}</p>
+                  </RevealItem>
+                ))}
+              </RevealGroup>
+            ) : null}
 
             {!withEmbed ? (
               <Reveal>

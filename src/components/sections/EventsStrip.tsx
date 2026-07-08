@@ -1,23 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { events } from "@/data/site";
 import { formatEventDate } from "@/lib/utils";
+import { useClientNow } from "@/lib/useToday";
 
 /** Rotating strip of upcoming events / announcements. */
 export function EventsStrip() {
   const [i, setI] = useState(0);
+  // `null` on server / first render → show all (deterministic SSR). After
+  // mount we drop past events so "Предстои" (upcoming) stays truthful.
+  const now = useClientNow();
   const reduce = useReducedMotion();
 
-  useEffect(() => {
-    if (events.length <= 1) return;
-    const id = setInterval(() => setI((p) => (p + 1) % events.length), 4200);
-    return () => clearInterval(id);
-  }, []);
+  const list = useMemo(() => {
+    if (now === null) return events;
+    const upcoming = events.filter(
+      (e) => new Date(e.date + "T23:59:59Z").getTime() >= now,
+    );
+    return upcoming.length ? upcoming : events;
+  }, [now]);
 
-  const ev = events[i];
+  useEffect(() => {
+    if (list.length <= 1) return;
+    const id = setInterval(() => setI((p) => (p + 1) % list.length), 4200);
+    return () => clearInterval(id);
+  }, [list.length]);
+
+  // Derive a safe index in case the list shrank after client-side filtering.
+  const active = list.length ? i % list.length : 0;
+  const ev = list[active];
   const { day, month } = formatEventDate(ev.date);
 
   return (
@@ -36,7 +50,7 @@ export function EventsStrip() {
         <div className="relative h-6 flex-1 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
-              key={i}
+              key={active}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
@@ -55,14 +69,14 @@ export function EventsStrip() {
           </AnimatePresence>
         </div>
 
-        <div className="hidden shrink-0 gap-1.5 sm:flex" aria-hidden>
-          {events.map((_, idx) => (
+        <div className="hidden shrink-0 gap-1.5 sm:flex">
+          {list.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setI(idx)}
               aria-label={`Покажи събитие ${idx + 1}`}
               className={`h-1.5 rounded-full transition-all ${
-                idx === i ? "w-5 bg-gold" : "w-1.5 bg-grey/30"
+                idx === active ? "w-5 bg-gold" : "w-1.5 bg-grey/30"
               }`}
             />
           ))}
