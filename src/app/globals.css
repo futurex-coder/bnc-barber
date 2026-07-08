@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Bonnie & Clyde — design tokens (Tailwind v4 @theme)
+   Dark, cinematic, modern-premium. Gold used sparingly.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --color-base: #0a0a0b;
+  --color-base-elevated: #111113;
+  --color-ink: #f4f1ea;
+  --color-grey: #9a958c;
+  --color-gold: #c9a227;
+  --color-gold-bright: #e7c65a;
+  --color-oxblood: #7c1f2b;
+
+  --color-hairline: rgba(244, 241, 234, 0.09);
+  --color-hairline-strong: rgba(244, 241, 234, 0.16);
+
+  --radius-brand: 16px;
+
+  --font-display: var(--font-oswald), "Oswald", sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-accent: var(--font-playfair), "Playfair Display", serif;
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-glow: 0 0 0 1px rgba(201, 162, 39, 0.3),
+    0 10px 40px -12px rgba(201, 162, 39, 0.35);
+}
+
+/* Base element styling */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-base);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-base);
+}
+
+/* Focus visibility (WCAG AA) */
+:focus-visible {
+  outline: 2px solid var(--color-gold-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Scrollbar (subtle, on-brand) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-base);
+}
+::-webkit-scrollbar-thumb {
+  background: #26262a;
+  border-radius: 999px;
+  border: 2px solid var(--color-base);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #34343a;
+}
+
+/* ── Utilities / helpers ────────────────────────────────────── */
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Gold text gradient — use sparingly */
+.text-gold-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-gold) 0%,
+    var(--color-gold-bright) 55%,
+    var(--color-gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.hairline {
+  border-color: var(--color-hairline);
+}
+
+/* On-brand gradient fallbacks for empty image slots */
+.img-fallback {
+  background:
+    radial-gradient(120% 120% at 20% 0%, rgba(201, 162, 39, 0.14) 0%, transparent 45%),
+    radial-gradient(100% 100% at 100% 100%, rgba(124, 31, 43, 0.22) 0%, transparent 50%),
+    linear-gradient(160deg, #17171a 0%, #0c0c0e 100%);
+}
+.img-fallback-2 {
+  background:
+    radial-gradient(90% 90% at 80% 10%, rgba(201, 162, 39, 0.1) 0%, transparent 50%),
+    linear-gradient(200deg, #141417 0%, #0a0a0b 100%);
+}
+
+/* Film grain overlay */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+/* Subtle floating gradient for hero ambience */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.05);
+  }
+}
+.animate-drift {
+  animation: drift 18s var(--ease-brand) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-drift {
+    animation: none !important;
+  }
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--color-ink);
+  color: var(--color-base);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: top 0.2s var(--ease-brand);
+}
+.skip-link:focus {
+  top: 1rem;
+}
