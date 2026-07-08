@@ -42,7 +42,7 @@ export function InstagramGrid() {
               >
                 <SmartImage
                   alt={p.alt}
-                  variant={i % 2 === 0 ? 1 : 2}
+                  variant={((i % 3) + 1) as 1 | 2 | 3}
                   className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
                   label="B&C"
                 />

@@ -19,7 +19,12 @@ export function ShopSplit() {
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal className="relative order-2 lg:order-1">
             <div className="relative aspect-[4/5] overflow-hidden rounded-brand border border-hairline">
-              <SmartImage alt="Интериор на Bonnie & Clyde" label="Салонът" priority={false} />
+              <SmartImage
+                alt="Интериор на Bonnie & Clyde"
+                className="absolute inset-0"
+                label="Салонът"
+                priority={false}
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-base/50 to-transparent" />
             </div>
             <div className="absolute -bottom-6 -right-4 hidden w-44 rotate-2 rounded-brand border border-hairline bg-base-elevated p-4 shadow-xl sm:block">

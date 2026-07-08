@@ -50,7 +50,11 @@ export default function ZaNasPage() {
         <Container className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <div className="relative aspect-[4/5] overflow-hidden rounded-brand border border-hairline">
-              <SmartImage alt="Основаването на Bonnie & Clyde" label="Историята" />
+              <SmartImage
+                alt="Основаването на Bonnie & Clyde"
+                className="absolute inset-0"
+                label="Историята"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-base/50 to-transparent" />
             </div>
           </Reveal>

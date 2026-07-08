@@ -44,7 +44,12 @@ export default function GaleriyaPage() {
                     g.tall ? "aspect-[3/4]" : "aspect-square",
                   )}
                 >
-                  <SmartImage alt={g.alt} variant={i % 2 === 0 ? 1 : 2} label="B&C" />
+                  <SmartImage
+                    alt={g.alt}
+                    variant={((i % 3) + 1) as 1 | 2 | 3}
+                    className="absolute inset-0"
+                    label="B&C"
+                  />
                 </div>
               </RevealItem>
             ))}

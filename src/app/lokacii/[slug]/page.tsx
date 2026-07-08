@@ -97,7 +97,12 @@ export default async function LocationDetail({
         <Container className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <Reveal className="flex flex-col gap-6">
             <div className="relative aspect-[16/10] overflow-hidden rounded-brand border border-hairline">
-              <SmartImage alt={`${loc.name} — салон`} variant={soon ? 2 : 1} label={loc.name} />
+              <SmartImage
+                alt={`${loc.name} — салон`}
+                className="absolute inset-0"
+                variant={soon ? 2 : 1}
+                label={loc.name}
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-base/50 to-transparent" />
             </div>
             <MapEmbed
