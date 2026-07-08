@@ -323,6 +323,26 @@ body {
   }
 }
 
+/* Cursor-following spotlight on cards (driven by CardGlow provider) */
+.card-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-brand);
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(201, 162, 39, 0.1),
+    transparent 68%
+  );
+  z-index: 1;
+}
+.card-glow:hover::after {
+  opacity: 1;
+}
+
 /* Rotating circular badge */
 @keyframes spin360 {
   to {

@@ -3,6 +3,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 import { Button } from "@/components/ui/Button";
 import { ShareButtons } from "@/components/ui/ShareButtons";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { GraduationIcon } from "@/components/ui/icons";
 
 export function FinalCta() {
@@ -29,11 +30,15 @@ export function FinalCta() {
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <FreshaButton size="lg" label="Запази час" />
-            <Button href="/akademiya" variant="outline" size="lg">
-              <GraduationIcon className="h-4 w-4" />
-              Влез в Академията
-            </Button>
+            <Magnetic>
+              <FreshaButton size="lg" label="Запази час" />
+            </Magnetic>
+            <Magnetic>
+              <Button href="/akademiya" variant="outline" size="lg">
+                <GraduationIcon className="h-4 w-4" />
+                Влез в Академията
+              </Button>
+            </Magnetic>
           </div>
 
           <div className="mt-4 flex flex-col items-center gap-3">

@@ -6,7 +6,7 @@ import type { Guest } from "@/data/site";
 
 export function GuestCard({ guest }: { guest: Guest }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated/70 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
+    <article className="card-glow group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated/70 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
       <Link
         href={`/gosti/${guest.slug}`}
         className="relative block aspect-[4/5] overflow-hidden"

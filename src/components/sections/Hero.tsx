@@ -9,6 +9,7 @@ import { FreshaButton } from "@/components/booking/FreshaButton";
 import { Stars } from "@/components/ui/Stars";
 import { ArrowRightIcon, GraduationIcon, ChevronDownIcon } from "@/components/ui/icons";
 import { aggregateRating } from "@/data/site";
+import { Magnetic } from "@/components/ui/Magnetic";
 
 /** Headline built from lines that mask-reveal upward on load. */
 const LINES: { text: string; accent?: string }[] = [
@@ -81,12 +82,16 @@ export function Hero() {
             className="hero-fade mt-9 flex flex-col gap-3 sm:flex-row"
             style={{ animationDelay: "0.52s" }}
           >
-            <FreshaButton size="lg" label="Запази час" />
-            <Button href="/akademiya" variant="outline" size="lg">
-              <GraduationIcon className="h-4 w-4" />
-              Влез в Академията
-              <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-            </Button>
+            <Magnetic>
+              <FreshaButton size="lg" label="Запази час" />
+            </Magnetic>
+            <Magnetic>
+              <Button href="/akademiya" variant="outline" size="lg">
+                <GraduationIcon className="h-4 w-4" />
+                Влез в Академията
+                <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+              </Button>
+            </Magnetic>
           </div>
 
           <div

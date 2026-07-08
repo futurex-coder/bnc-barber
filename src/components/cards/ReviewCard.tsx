@@ -3,7 +3,7 @@ import type { Review } from "@/data/site";
 
 export function ReviewCard({ review }: { review: Review }) {
   return (
-    <figure className="flex h-full flex-col gap-4 rounded-brand border border-hairline bg-base-elevated p-6 transition-colors duration-500 hover:border-gold/30">
+    <figure className="card-glow relative flex h-full flex-col gap-4 rounded-brand border border-hairline bg-base-elevated p-6 transition-colors duration-500 hover:border-gold/30">
       <div className="flex items-center justify-between">
         <Stars value={review.rating} />
         <span className="text-[11px] uppercase tracking-wider text-grey">

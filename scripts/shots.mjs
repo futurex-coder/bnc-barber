@@ -14,6 +14,8 @@ const routes = [
   ["ekip-alex", "/ekip/alex"],
   ["uslugi", "/uslugi"],
   ["akademiya", "/akademiya"],
+  ["sabitiya", "/sabitiya"],
+  ["gosti-ink-marina", "/gosti/ink-marina"],
   ["galeriya", "/galeriya"],
   ["za-nas", "/za-nas"],
   ["kontakti", "/kontakti"],

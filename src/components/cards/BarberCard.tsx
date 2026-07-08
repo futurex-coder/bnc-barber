@@ -6,7 +6,7 @@ import type { Barber } from "@/data/site";
 
 export function BarberCard({ barber }: { barber: Barber }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
+    <article className="card-glow group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
       <Link
         href={`/ekip/${barber.slug}`}
         className="relative block aspect-[4/5] overflow-hidden"

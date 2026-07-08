@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SiteBackground } from "@/components/layout/SiteBackground";
+import { CardGlow } from "@/components/providers/CardGlow";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -79,6 +80,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col text-ink">
         <SiteBackground />
+        <CardGlow />
         <a href="#main" className="skip-link">
           Към съдържанието
         </a>

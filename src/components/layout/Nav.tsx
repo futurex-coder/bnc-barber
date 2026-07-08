@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotionSafe";
 import { primaryNav } from "@/config/nav";
 import { Logo } from "./Logo";
@@ -19,6 +19,12 @@ export function Nav() {
   const reduce = usePrefersReducedMotion();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 30,
+    mass: 0.3,
+  });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -170,6 +176,16 @@ export function Nav() {
           </motion.div>
         ) : null}
       </AnimatePresence>
+
+      {/* Scroll progress — subtle gold line along the header's bottom edge */}
+      <motion.span
+        aria-hidden
+        style={{ scaleX: progress }}
+        className={cn(
+          "absolute inset-x-0 bottom-0 h-px origin-left bg-gradient-to-r from-gold via-gold-bright to-gold transition-opacity duration-500",
+          scrolled ? "opacity-100" : "opacity-0",
+        )}
+      />
     </header>
   );
 }

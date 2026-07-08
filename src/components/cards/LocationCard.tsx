@@ -9,7 +9,7 @@ export function LocationCard({ loc }: { loc: Location }) {
   const soon = loc.status === "coming-soon";
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
+    <article className="card-glow group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
       <div className="relative aspect-[16/10] overflow-hidden">
         <SmartImage
           alt={`${loc.name} — интериор на салона`}
