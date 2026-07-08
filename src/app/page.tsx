@@ -5,6 +5,7 @@ import { Stats } from "@/components/sections/Stats";
 import { ShopSplit } from "@/components/sections/ShopSplit";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { TeamSection } from "@/components/sections/TeamSection";
+import { GuestSpotlight } from "@/components/sections/GuestSpotlight";
 import { ServicesMenu } from "@/components/sections/ServicesMenu";
 import { AcademyBlock } from "@/components/sections/AcademyBlock";
 import { InstagramGrid } from "@/components/sections/InstagramGrid";
@@ -21,6 +22,7 @@ export default function HomePage() {
       <ShopSplit />
       <LocationsSection />
       <TeamSection />
+      <GuestSpotlight />
       <ServicesMenu />
       <AcademyBlock />
       <InstagramGrid />

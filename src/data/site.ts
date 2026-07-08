@@ -71,6 +71,25 @@ export type EventItem = {
   href?: string;
 };
 
+export type Guest = {
+  slug: string;
+  name: string;
+  /** What they do while guesting with us. */
+  discipline: "Тату артист" | "Гост барбер" | "Пиърсинг";
+  /** Signature style, one line. */
+  style: string;
+  bio: string;
+  instagram?: { handle: string; url: string };
+  /** Residency window. */
+  from: string; // ISO
+  to: string; // ISO
+  locationSlug: string;
+  specialties: string[];
+  /** The marquee guest gets the big spotlight treatment. */
+  featured?: boolean;
+  isPlaceholder?: boolean;
+};
+
 export type Review = {
   author: string;
   rating: number;
@@ -321,6 +340,52 @@ export const events: EventItem[] = [
   },
 ];
 
+/* ----------------------------------------------------------- Guest artists */
+// NEEDS YOU: real guest names, styles, dates, Instagram handles.
+
+export const guests: Guest[] = [
+  {
+    slug: "ink-marina",
+    name: "Марина Инк",
+    discipline: "Тату артист",
+    style: "Fine-line & black-and-grey. Малки истории по кожата.",
+    bio: "Гостуващ тату артист с почерк в тънката линия и мекото сиво. Работи по запис в дните на резиденцията — свободни места се пълнят бързо. Placeholder до потвърждаване на реален гост.",
+    instagram: { handle: "bonnienclyde_ruse", url: "https://instagram.com/bonnienclyde_ruse" },
+    from: "2026-07-24",
+    to: "2026-07-27",
+    locationSlug: "zdravets-iztok",
+    specialties: ["Fine-line", "Black & grey", "Флаш"],
+    featured: true,
+    isPlaceholder: true,
+  },
+  {
+    slug: "guest-deyan",
+    name: "Деян Р.",
+    discipline: "Гост барбер",
+    style: "Textured crops и прецизни fade-ове от София.",
+    bio: "Гост-бръснар за уикенд с демонстрации и записан час за клиенти. Силен в текстурните кропове и високите fade-ове. Placeholder до потвърждаване.",
+    instagram: { handle: "bonnienclyde_ruse", url: "https://instagram.com/bonnienclyde_ruse" },
+    from: "2026-08-01",
+    to: "2026-08-02",
+    locationSlug: "zdravets-iztok",
+    specialties: ["High fade", "Texture", "Демо"],
+    isPlaceholder: true,
+  },
+  {
+    slug: "ink-stefan",
+    name: "Стефан Тату",
+    discipline: "Тату артист",
+    style: "Neo-traditional с плътен цвят и характер.",
+    bio: "Neo-traditional артист с плътни линии и наситен цвят. Резиденция веднъж на сезон. Placeholder до потвърждаване.",
+    instagram: { handle: "bonnienclyde_ruse", url: "https://instagram.com/bonnienclyde_ruse" },
+    from: "2026-08-21",
+    to: "2026-08-24",
+    locationSlug: "zdravets-iztok",
+    specialties: ["Neo-traditional", "Colour", "Custom"],
+    isPlaceholder: true,
+  },
+];
+
 /* ---------------------------------------------------------------- Reviews */
 // NEEDS YOU: replace with real Google/Fresha review text + authors.
 
@@ -436,4 +501,12 @@ export function getBarber(slug: string): Barber | undefined {
 
 export function barbersForLocation(slug: string): Barber[] {
   return barbers.filter((b) => b.locationSlug === slug);
+}
+
+export function getGuest(slug: string): Guest | undefined {
+  return guests.find((g) => g.slug === slug);
+}
+
+export function featuredGuest(): Guest | undefined {
+  return guests.find((g) => g.featured) ?? guests[0];
 }

@@ -9,6 +9,8 @@ const routes = [
   "/ekip/alex",
   "/uslugi",
   "/akademiya",
+  "/sabitiya",
+  "/gosti/ink-marina",
   "/galeriya",
   "/za-nas",
   "/kontakti",

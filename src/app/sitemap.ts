@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/config/site";
-import { locations, barbers } from "@/data/site";
+import { locations, barbers, guests } from "@/data/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ekip",
     "/uslugi",
     "/akademiya",
+    "/sabitiya",
     "/galeriya",
     "/za-nas",
     "/kontakti",
@@ -37,5 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [...pages, ...locationPages, ...barberPages];
+  const guestPages: MetadataRoute.Sitemap = guests.map((g) => ({
+    url: `${SITE_URL}/gosti/${g.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.5,
+  }));
+
+  return [...pages, ...locationPages, ...barberPages, ...guestPages];
 }

@@ -34,3 +34,11 @@ export function formatEventDate(iso: string): { day: string; month: string } {
   const d = new Date(iso + "T00:00:00Z");
   return { day: String(d.getUTCDate()), month: BG_MONTHS[d.getUTCMonth()] };
 }
+
+/** Format a date range like "24–27 юли" or "31 юли – 2 авг". */
+export function formatDateRange(fromIso: string, toIso: string): string {
+  const a = formatEventDate(fromIso);
+  const b = formatEventDate(toIso);
+  if (a.month === b.month) return `${a.day}–${b.day} ${a.month}`;
+  return `${a.day} ${a.month} – ${b.day} ${b.month}`;
+}

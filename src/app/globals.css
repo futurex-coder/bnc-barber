@@ -41,11 +41,102 @@ html {
 }
 
 body {
-  background-color: var(--color-base);
+  /* transparent so the fixed .site-bg shows through; html keeps the base
+     colour as the ultimate fallback. */
+  background-color: transparent;
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Atmospheric site background — fixed layer behind all content.
+   Not flat black: a deep charcoal wash, slow-drifting gold/oxblood
+   auroras, a fine dot grid and grain, and an edge vignette.
+   Kept dark enough that ink text on transparent sections stays AA.
+   ───────────────────────────────────────────────────────────── */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(140% 100% at 50% -10%, #17161c 0%, #0c0c0f 42%, #08080a 100%);
+}
+.site-bg__aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.site-bg__aurora--gold {
+  top: -12%;
+  left: -8%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, rgba(201, 162, 39, 0.16), transparent 62%);
+  animation: auroraA 26s var(--ease-brand) infinite;
+}
+.site-bg__aurora--ox {
+  bottom: -18%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(124, 31, 43, 0.22), transparent 60%);
+  animation: auroraB 32s var(--ease-brand) infinite;
+}
+.site-bg__aurora--gold2 {
+  top: 40%;
+  right: 8%;
+  width: 34vw;
+  height: 34vw;
+  opacity: 0.35;
+  background: radial-gradient(circle, rgba(201, 162, 39, 0.1), transparent 65%);
+  animation: auroraA 38s var(--ease-brand) infinite reverse;
+}
+.site-bg__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: radial-gradient(
+    rgba(244, 241, 234, 0.035) 1px,
+    transparent 1px
+  );
+  background-size: 34px 34px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+}
+.site-bg__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+@keyframes auroraA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 8%, 0) scale(1.12);
+  }
+}
+@keyframes auroraB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-7%, -6%, 0) scale(1.15);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-bg__aurora {
+    animation: none !important;
+  }
 }
 
 ::selection {
@@ -229,6 +320,63 @@ body {
   main [style*="opacity: 0"] {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* Rotating circular badge */
+@keyframes spin360 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.rotating-badge {
+  animation: spin360 22s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rotating-badge {
+    animation: none;
+  }
+}
+
+/* Animated gradient border (for featured / spotlight cards) */
+@property --bc-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes borderSpin {
+  to {
+    --bc-angle: 360deg;
+  }
+}
+.glow-border {
+  position: relative;
+  isolation: isolate;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--bc-angle),
+    transparent 0%,
+    rgba(201, 162, 39, 0.7) 12%,
+    transparent 28%,
+    transparent 60%,
+    rgba(124, 31, 43, 0.6) 74%,
+    transparent 92%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderSpin 8s linear infinite;
+  z-index: -1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-border::before {
+    animation: none;
   }
 }
 

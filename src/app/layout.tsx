@@ -6,6 +6,7 @@ import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+import { SiteBackground } from "@/components/layout/SiteBackground";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -76,7 +77,8 @@ export default function RootLayout({
       lang="bg"
       className={`${oswald.variable} ${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-base text-ink">
+      <body className="min-h-full flex flex-col text-ink">
+        <SiteBackground />
         <a href="#main" className="skip-link">
           Към съдържанието
         </a>

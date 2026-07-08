@@ -3,7 +3,10 @@ import {
   locations,
   barbers,
   services,
+  guests,
   getLocation,
+  getGuest,
+  featuredGuest,
   barbersForLocation,
 } from "./site";
 
@@ -37,5 +40,20 @@ describe("services", () => {
       expect(s.price).toBeGreaterThan(0);
       expect(s.durationMin).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("guests", () => {
+  it("have unique slugs and valid date ranges", () => {
+    const slugs = guests.map((g) => g.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+    for (const g of guests) {
+      expect(g.from <= g.to).toBe(true);
+      expect(getLocation(g.locationSlug)).toBeDefined();
+    }
+  });
+  it("resolve by slug and expose a featured guest", () => {
+    expect(getGuest(guests[0].slug)).toBe(guests[0]);
+    expect(featuredGuest()).toBeDefined();
   });
 });
