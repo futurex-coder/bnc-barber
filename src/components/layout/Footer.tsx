@@ -25,7 +25,7 @@ export function Footer() {
           </div>
 
           <nav aria-label="Навигация във футъра" className="flex flex-col gap-3">
-            <p className="text-xs uppercase tracking-[0.2em] text-grey/70">Сайт</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-grey">Сайт</p>
             {primaryNav.map((item) => (
               <Link
                 key={item.href}
@@ -38,7 +38,7 @@ export function Footer() {
           </nav>
 
           <div className="flex flex-col gap-3">
-            <p className="text-xs uppercase tracking-[0.2em] text-grey/70">Контакт</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-grey">Контакт</p>
             <a
               href={SITE.phoneHref}
               className="inline-flex items-center gap-2 text-sm text-ink/80 transition-colors hover:text-gold-bright"
@@ -62,7 +62,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className="text-xs uppercase tracking-[0.2em] text-grey/70">Локации</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-grey">Локации</p>
             {locations.map((loc) => (
               <Link
                 key={loc.slug}
@@ -82,7 +82,7 @@ export function Footer() {
           <p>
             © {year} {SITE.name}. Всички права запазени.
           </p>
-          <p className="text-grey/70">
+          <p className="text-grey">
             Изработка с грижа в Русе · Дизайн &amp; код на място
           </p>
         </div>

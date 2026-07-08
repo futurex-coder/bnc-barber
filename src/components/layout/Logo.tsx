@@ -12,7 +12,10 @@ export function Logo({
   return (
     <Link
       href="/"
-      aria-label="Bonnie & Clyde — начало"
+      // When the wordmark text is visible, it IS the accessible name (WCAG
+      // 2.5.3 label-in-name). Only supply an aria-label in compact mode where
+      // just the monogram shows.
+      aria-label={compact ? "Bonnie & Clyde — начало" : undefined}
       className={cn(
         "group inline-flex items-center gap-2.5 text-ink transition-colors",
         className,

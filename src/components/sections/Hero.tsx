@@ -119,7 +119,7 @@ export function Hero() {
         transition={{ delay: 1.4, duration: 0.8 }}
         className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center"
       >
-        <span className="flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-grey/70">
+        <span className="flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-grey">
           Скрол
           <motion.span
             animate={reduce ? {} : { y: [0, 6, 0] }}

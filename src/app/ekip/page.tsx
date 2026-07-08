@@ -79,13 +79,13 @@ export default function EkipPage() {
 
                   <dl className="flex gap-8 border-y border-hairline py-4">
                     <div>
-                      <dt className="text-xs uppercase tracking-wide text-grey/70">Опит</dt>
+                      <dt className="text-xs uppercase tracking-wide text-grey">Опит</dt>
                       <dd className="font-display text-2xl text-ink">
                         {b.yearsExperience}+ г.
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-xs uppercase tracking-wide text-grey/70">Локация</dt>
+                      <dt className="text-xs uppercase tracking-wide text-grey">Локация</dt>
                       <dd className="font-display text-2xl text-ink">{loc?.name}</dd>
                     </div>
                   </dl>

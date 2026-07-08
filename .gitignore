@@ -44,3 +44,6 @@ next-env.d.ts
 /screenshots/*.png
 /playwright-report/
 /test-results/
+
+# lighthouse raw report
+lh-*.json

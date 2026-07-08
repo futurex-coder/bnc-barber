@@ -37,7 +37,7 @@ export function FinalCta() {
           </div>
 
           <div className="mt-4 flex flex-col items-center gap-3">
-            <span className="text-xs uppercase tracking-[0.2em] text-grey/60">
+            <span className="text-xs uppercase tracking-[0.2em] text-grey">
               Разкажи на приятел
             </span>
             <ShareButtons />

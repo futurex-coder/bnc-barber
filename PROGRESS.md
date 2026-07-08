@@ -12,8 +12,15 @@ Autonomous overnight build log. Newest entries at the bottom of each section.
 - **Content** is fully centralised in `src/data/site.ts`; all booking URLs in `src/config/booking.ts`.
 - **Site URL** read from `NEXT_PUBLIC_SITE_URL`, falls back to a placeholder Vercel URL for OG/sitemap.
 
-## Lighthouse scores
-- _pending — recorded after first full build_
+## Lighthouse scores (home `/`, desktop preset, production build)
+- **Performance: 98**
+- **Accessibility: 100**
+- **Best Practices: 100**
+- **SEO: 100**
+- Re-run any time: `npm run build && npm start -- -p 3201`, then
+  `CHROME_PATH="<chrome>" npx lighthouse http://localhost:3201 --preset=desktop`.
+- A11y was 96 pre-fix (low-contrast `/70` grey labels + logo label-in-name);
+  both fixed → 100. Perf 98: remaining cost is framer-motion JS (LCP 0.93).
 
 ## NEEDS YOU (real data / secrets to swap in)
 - Real photos: hero video/poster, barber portraits, shop interior, gallery images (currently on-brand gradient placeholders).
