@@ -24,8 +24,8 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close on route change + lock scroll while the drawer is open.
-  useEffect(() => setOpen(false), [pathname]);
+  // Lock scroll while the drawer is open. (The drawer closes itself when a
+  // link is tapped — see the mobile nav below — so no route-change effect.)
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -112,6 +112,7 @@ export function Nav() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => setOpen(false)}
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={cn(
                       "rounded-xl px-4 py-3.5 text-lg font-display uppercase tracking-wide transition-colors",

@@ -32,10 +32,8 @@ function StatCell({ stat }: { stat: Stat }) {
   const [display, setDisplay] = useState(reduce ? stat.value : 0);
 
   useEffect(() => {
-    if (!inView || reduce) {
-      if (reduce) setDisplay(stat.value);
-      return;
-    }
+    // Reduced-motion users already see the final value (initial state).
+    if (!inView || reduce) return;
     const controls = animate(0, stat.value, {
       duration: 1.6,
       ease: [0.22, 1, 0.36, 1],

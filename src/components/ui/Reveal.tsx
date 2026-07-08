@@ -53,6 +53,7 @@ export function RevealGroup({
   delay = 0,
   amount = 0.2,
   as = "div",
+  id,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -60,17 +61,23 @@ export function RevealGroup({
   delay?: number;
   amount?: number;
   as?: "div" | "ul" | "section";
+  id?: string;
 }) {
   const reduce = useReducedMotion();
   const MotionTag = motion[as];
 
   if (reduce) {
     const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
+    return (
+      <Tag className={className} id={id}>
+        {children}
+      </Tag>
+    );
   }
 
   return (
     <MotionTag
+      id={id}
       className={className}
       variants={staggerContainer(stagger, delay)}
       initial="hidden"
