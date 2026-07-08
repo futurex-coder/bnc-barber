@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/config/site";
-import { locations } from "@/data/site";
+import { locations, barbers } from "@/data/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -30,5 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...pages, ...locationPages];
+  const barberPages: MetadataRoute.Sitemap = barbers.map((b) => ({
+    url: `${SITE_URL}/ekip/${b.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
+  return [...pages, ...locationPages, ...barberPages];
 }

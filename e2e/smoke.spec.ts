@@ -6,6 +6,7 @@ const routes = [
   "/lokacii/zdravets-iztok",
   "/lokacii/center",
   "/ekip",
+  "/ekip/alex",
   "/uslugi",
   "/akademiya",
   "/galeriya",
