@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bonnie & Clyde — Барбершоп & Академия, Русе
 
-## Getting Started
+Marketing site for a real barbershop + barber academy in Ruse, Bulgaria.
+Dark, cinematic, modern-premium. Bulgarian (Cyrillic) first.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router) · TypeScript (strict) · Tailwind CSS v4 ·
+Framer Motion · deployed to Vercel.
+
+---
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Other scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build        # production build
+npm start            # serve the production build
+npm run typecheck    # tsc --noEmit
+npm run lint         # eslint
+npm test             # Vitest unit tests
+npm run test:e2e     # Playwright smoke tests (builds + serves automatically)
+npm run shots        # screenshot every route at 390/768/1440 into /screenshots
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`npm run shots` expects a server on `http://localhost:3100` (or set `BASE_URL`).
+Set `REDUCED=1` to capture with `prefers-reduced-motion`.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Where the content lives
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**All editable content is typed and centralised — no copy is hardcoded in JSX.**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| File | What it holds |
+| --- | --- |
+| [`src/data/site.ts`](src/data/site.ts) | Locations, barbers, services, academy modules, events, reviews, stats, gallery, FAQ. |
+| [`src/config/site.ts`](src/config/site.ts) | Business name, phone, email, Instagram handles, site URL. |
+| [`src/config/booking.ts`](src/config/booking.ts) | **Single source of truth for every booking URL.** |
+| [`src/config/nav.ts`](src/config/nav.ts) | Primary navigation items. |
 
-## Deploy on Vercel
+To change text, prices, hours, team, etc., edit `src/data/site.ts`. Types guard
+the shape, so `npm run typecheck` will catch mistakes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Swapping booking links
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Everything funnels through [`src/config/booking.ts`](src/config/booking.ts):
+
+- **Haircuts → Fresha.** `fresha[locationSlug]` per location; `freshaByBarber`
+  for per-barber deep links (falls back to the location URL, then the flagship).
+  Rendered by `<FreshaButton locationSlug=… />` / `<FreshaButton barberSlug=… />`.
+- **Academy → Cal.com.** `calcom.link` / `calcom.url`. The live inline embed is
+  gated behind `calcom.embedEnabled` (env `NEXT_PUBLIC_CALCOM_EMBED=1`) because
+  the placeholder account 404s — until the real Cal.com account exists the
+  styled link-out fallback is shown. Flip the flag to turn on the real embed.
+
+The two funnels are kept deliberately separate and never compete.
+
+### Swapping photos
+
+Every image slot uses [`<SmartImage>`](src/components/ui/SmartImage.tsx). Pass a
+`src` and it renders an optimised `next/image`; omit `src` and it renders an
+on-brand gradient placeholder with the brand monogram (so nothing ever looks
+broken). To add real photos:
+
+1. Drop files in `public/` (e.g. `public/team/alex.jpg`).
+2. Pass the path: `<SmartImage src="/team/alex.jpg" alt="…" className="absolute inset-0" />`.
+   Keep the `absolute inset-0` (or another fill class) so it fills its parent.
+
+Hero video: the hero currently uses a gradient backdrop
+([`Hero.tsx`](src/components/sections/Hero.tsx)). Swap the `.img-fallback` layer
+for a `<video>`/`next/image` poster when footage is ready.
+
+### Swapping the Instagram feed
+
+[`InstagramGrid`](src/components/sections/InstagramGrid.tsx) renders a static,
+feed-ready grid. To wire a live feed (EmbedSocial / Elfsight / IG Basic Display
+API), replace the `SmartImage` placeholders with the feed's images or embed —
+the layout already matches a 6-up grid.
+
+---
+
+## Routes
+
+`/` · `/lokacii` · `/lokacii/[slug]` · `/ekip` · `/uslugi` · `/akademiya` ·
+`/galeriya` · `/za-nas` · `/kontakti` · custom `not-found`.
+
+Dynamic OG images via `next/og`: site-wide (`/opengraph-image`) and per location
+(`/lokacii/[slug]/opengraph-image`). `sitemap.xml` and `robots.txt` are
+generated. JSON-LD: `Organization` + `HairSalon`/`LocalBusiness` per location,
+`BreadcrumbList`, and `FAQPage`.
+
+---
+
+## Design system
+
+Tokens live in [`src/app/globals.css`](src/app/globals.css) under Tailwind v4
+`@theme` (no `tailwind.config.js`):
+
+- Palette: `base #0a0a0b` · `ink #f4f1ea` · `grey #9a958c` ·
+  `gold #c9a227→#e7c65a` (sparingly) · `oxblood #7c1f2b`. Hairlines
+  `rgba(244,241,234,.09)`. Radius `16px`.
+- Type: **Oswald** (condensed display, Cyrillic) · **Inter** (body) ·
+  **Playfair Display italic** (one accent word per headline). Loaded via
+  `next/font` with Cyrillic subsets.
+- Motion respects `prefers-reduced-motion` end to end: a hydration-safe
+  `usePrefersReducedMotion` hook, `MotionConfig reducedMotion="user"`, and CSS
+  `@media` rules. Above-the-fold hero reveals are CSS-driven so they don't gate
+  LCP behind hydration.
+
+---
+
+## Deploy to Vercel
+
+1. Push the branch and import the repo in Vercel (framework auto-detected).
+2. Set env vars:
+   - `NEXT_PUBLIC_SITE_URL` → the production domain (used for canonicals,
+     `metadataBase`, sitemap, robots, OG, JSON-LD `@id`s). **Set this before
+     launch** or those default to a placeholder Vercel URL.
+   - `NEXT_PUBLIC_CALCOM_EMBED=1` → only once the real Cal.com account exists.
+3. Build command `next build`, output auto. No other secrets required; there are
+   no paid APIs (the map is a keyless OpenStreetMap embed).
+
+---
+
+## Testing
+
+- **Vitest** — unit tests for helpers, booking-URL resolution, and content
+  invariants (`src/**/*.test.ts`).
+- **Playwright** — smoke test loads every route and asserts no console/page
+  errors, one `<h1>` per page, the Fresha CTA target, the keyboard skip-link,
+  and clean hydration under `prefers-reduced-motion`
+  ([`e2e/smoke.spec.ts`](e2e/smoke.spec.ts)).
+
+See [`PROGRESS.md`](PROGRESS.md) for the build log, Lighthouse scores, and the
+**NEEDS YOU** list of real data/secrets still to supply.

@@ -41,7 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 # testing / scratch
-/screenshots/*.png
+# NOTE: /screenshots are committed as an overnight deliverable (route x breakpoint).
 /playwright-report/
 /test-results/
 
