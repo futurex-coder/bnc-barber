@@ -19,8 +19,9 @@ Branch: `feat/site-build`. Run it with `npm run dev`.
   (grayscale→colour) → Услуги & цени menu → dark Академия block (Cal.com) →
   Instagram grid → reviews → final CTA + share → footer.
 - **Routes** — `/lokacii` (+ per-location detail with hours, keyless OSM map,
-  team, JSON-LD), `/ekip`, `/uslugi`, `/akademiya`, `/galeriya`, `/za-nas`,
-  `/kontakti`, custom 404.
+  team, JSON-LD), `/ekip` (+ per-barber profile pages `/ekip/[slug]` with
+  shareable OG cards & Person JSON-LD), `/uslugi`, `/akademiya`, `/galeriya`,
+  `/za-nas`, `/kontakti`, custom 404.
 - **Booking** — `<FreshaButton>` per location & per barber (Fresha); Cal.com
   embed component with link fallback, gated behind a flag until the real account
   exists (keeps the console clean).
@@ -101,8 +102,7 @@ Branch: `feat/site-build`. Run it with `npm run dev`.
 - Drop in real photos + the hero video (biggest visual upgrade).
 - Decide the Oswald `swap` vs `optional` trade-off for mobile LCP.
 - Fill real barber data and academy price/dates; flip the Cal.com embed flag.
-- Optional stretch not built: EN language toggle, booking modal, per-barber OG
-  routes (`/ekip/[slug]` + `opengraph-image`).
+- Optional stretch not built: EN language toggle, booking modal.
 
 ## Assumptions made
 - Bulgarian-transliterated route slugs (`/lokacii`, `/ekip`, …) per the spec.
