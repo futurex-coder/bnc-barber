@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 // Allow next/image to serve images uploaded to Supabase Storage (public bucket).
-const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
-  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
-  : undefined;
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://qqaiagnnebjkzmxfyjvu.supabase.co";
+const supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : undefined;
 
 const nextConfig: NextConfig = {
   images: {
