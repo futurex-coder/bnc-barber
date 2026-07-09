@@ -8,6 +8,7 @@ import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SiteBackground } from "@/components/layout/SiteBackground";
 import { CardGlow } from "@/components/providers/CardGlow";
+import { PublicChrome } from "@/components/layout/PublicChrome";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -86,11 +87,9 @@ export default function RootLayout({
         </a>
         <OrganizationJsonLd />
         <MotionProvider>
-          <Nav />
-          <main id="main" className="flex-1">
+          <PublicChrome nav={<Nav />} footer={<Footer />}>
             {children}
-          </main>
-          <Footer />
+          </PublicChrome>
         </MotionProvider>
       </body>
     </html>

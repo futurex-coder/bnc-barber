@@ -3,7 +3,7 @@ import { SmartImage } from "@/components/ui/SmartImage";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 import { TodayStatus } from "@/components/cards/TodayStatus";
 import { MapPinIcon, ArrowUpRightIcon } from "@/components/ui/icons";
-import type { Location } from "@/data/site";
+import type { Location } from "@/lib/content";
 
 export function LocationCard({ loc }: { loc: Location }) {
   const soon = loc.status === "coming-soon";
@@ -12,7 +12,8 @@ export function LocationCard({ loc }: { loc: Location }) {
     <article className="card-glow group relative flex flex-col overflow-hidden rounded-brand border border-hairline bg-base-elevated transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-gold/40">
       <div className="relative aspect-[16/10] overflow-hidden">
         <SmartImage
-          alt={`${loc.name} — интериор на салона`}
+          src={loc.images[0]?.url || undefined}
+          alt={loc.images[0]?.alt || `${loc.name} — интериор на салона`}
           className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-105"
           variant={soon ? 2 : 1}
           label={loc.name}
@@ -53,7 +54,7 @@ export function LocationCard({ loc }: { loc: Location }) {
             </Link>
           ) : (
             <>
-              <FreshaButton locationSlug={loc.slug} size="md" label="Запази час" />
+              <FreshaButton href={loc.freshaUrl} size="md" label="Запази час" />
               <Link
                 href={`/lokacii/${loc.slug}`}
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/80 transition-colors hover:text-gold-bright"

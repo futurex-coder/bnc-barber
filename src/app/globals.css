@@ -400,6 +400,69 @@ body {
   }
 }
 
+/* ── Rich text (admin-authored via TipTap) ──────────────────────
+   Inherits font-size + colour from the wrapper's utility classes;
+   only handles rhythm, lists, links and headings. */
+.prose-bnc > * {
+  margin: 0;
+}
+.prose-bnc > * + * {
+  margin-top: 0.85em;
+}
+.prose-bnc a {
+  color: var(--color-gold-bright);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-bnc a:hover {
+  color: var(--color-gold);
+}
+.prose-bnc strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.prose-bnc em {
+  font-style: italic;
+}
+.prose-bnc h2,
+.prose-bnc h3 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.prose-bnc h2 {
+  font-size: 1.5em;
+  margin-top: 1.2em;
+}
+.prose-bnc h3 {
+  font-size: 1.2em;
+  margin-top: 1em;
+}
+.prose-bnc ul,
+.prose-bnc ol {
+  padding-left: 1.25em;
+}
+.prose-bnc ul {
+  list-style: disc;
+}
+.prose-bnc ol {
+  list-style: decimal;
+}
+.prose-bnc li {
+  margin-top: 0.3em;
+}
+.prose-bnc li::marker {
+  color: var(--color-gold);
+}
+.prose-bnc blockquote {
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1em;
+  color: var(--color-ink);
+  font-style: italic;
+}
+
 /* Skip link */
 .skip-link {
   position: fixed;

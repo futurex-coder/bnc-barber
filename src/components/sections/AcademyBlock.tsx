@@ -2,8 +2,9 @@ import { Container } from "@/components/ui/Container";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { RichText } from "@/components/ui/RichText";
 import { CalEmbed } from "@/components/booking/CalEmbed";
-import { academyIntro, academyModules } from "@/data/site";
+import { getAcademy } from "@/lib/content";
 import { calcom } from "@/config/booking";
 import { GraduationIcon, ArrowRightIcon } from "@/components/ui/icons";
 
@@ -11,7 +12,7 @@ import { GraduationIcon, ArrowRightIcon } from "@/components/ui/icons";
  * The Academy funnel — deliberately distinct from the client/Fresha world:
  * near-black, oxblood accents, its own booking system (Cal.com).
  */
-export function AcademyBlock({
+export async function AcademyBlock({
   withEmbed = true,
   showModules = true,
 }: {
@@ -19,6 +20,9 @@ export function AcademyBlock({
   /** Hide the module grid when the page already renders its own programme. */
   showModules?: boolean;
 }) {
+  const academy = await getAcademy();
+  const ctaUrl = academy.ctaUrl || calcom.url;
+
   return (
     <section
       id="akademiya"
@@ -37,7 +41,7 @@ export function AcademyBlock({
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col gap-6">
             <Reveal>
-              <Eyebrow>{academyIntro.eyebrow}</Eyebrow>
+              <Eyebrow>{academy.eyebrow}</Eyebrow>
             </Reveal>
             <Reveal>
               <h2 className="font-display text-4xl text-ink sm:text-5xl md:text-6xl">
@@ -45,25 +49,32 @@ export function AcademyBlock({
               </h2>
             </Reveal>
             <Reveal>
-              <p className="max-w-lg text-lg leading-relaxed text-grey">{academyIntro.lead}</p>
+              <RichText
+                html={academy.lead}
+                className="max-w-lg text-lg leading-relaxed text-grey"
+              />
             </Reveal>
 
             <Reveal>
               <div className="flex flex-wrap gap-3">
-                <span className="rounded-full border border-hairline bg-white/[0.03] px-4 py-2 text-sm text-ink/90">
-                  {academyIntro.duration}
-                </span>
-                <span className="rounded-full border border-hairline bg-white/[0.03] px-4 py-2 text-sm text-ink/90">
-                  {academyIntro.priceNote}
-                </span>
+                {academy.duration ? (
+                  <span className="rounded-full border border-hairline bg-white/[0.03] px-4 py-2 text-sm text-ink/90">
+                    {academy.duration}
+                  </span>
+                ) : null}
+                {academy.priceNote ? (
+                  <span className="rounded-full border border-hairline bg-white/[0.03] px-4 py-2 text-sm text-ink/90">
+                    {academy.priceNote}
+                  </span>
+                ) : null}
               </div>
             </Reveal>
 
-            {showModules ? (
+            {showModules && academy.modules.length ? (
               <RevealGroup className="mt-2 grid gap-3 sm:grid-cols-2">
-                {academyModules.map((m) => (
+                {academy.modules.map((m) => (
                   <RevealItem
-                    key={m.number}
+                    key={m.id}
                     className="rounded-brand border border-hairline bg-white/[0.02] p-4 transition-colors hover:border-gold/30"
                   >
                     <div className="flex items-baseline gap-3">
@@ -72,7 +83,7 @@ export function AcademyBlock({
                         {m.title}
                       </h3>
                     </div>
-                    <p className="mt-1.5 text-sm text-grey">{m.summary}</p>
+                    <RichText html={m.summary} className="mt-1.5 text-sm text-grey" />
                   </RevealItem>
                 ))}
               </RevealGroup>
@@ -80,9 +91,9 @@ export function AcademyBlock({
 
             {!withEmbed ? (
               <Reveal>
-                <Button href={calcom.url} external variant="gold" size="lg">
+                <Button href={ctaUrl} external variant="gold" size="lg">
                   <GraduationIcon className="h-4 w-4" />
-                  {academyIntro.ctaLabel}
+                  {academy.ctaLabel}
                   <ArrowRightIcon className="h-4 w-4" />
                 </Button>
               </Reveal>
@@ -103,8 +114,8 @@ export function AcademyBlock({
                   цената и датите.
                 </p>
                 <div className="mt-6">
-                  <Button href={calcom.url} external variant="gold" size="lg">
-                    {academyIntro.ctaLabel}
+                  <Button href={ctaUrl} external variant="gold" size="lg">
+                    {academy.ctaLabel}
                   </Button>
                 </div>
               </div>

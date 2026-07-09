@@ -1,9 +1,21 @@
 import { formatDuration, formatPrice } from "@/lib/utils";
-import type { Service } from "@/data/site";
+import { DEFAULT_FRESHA } from "@/config/booking";
+import { RichText } from "@/components/ui/RichText";
+import { ArrowUpRightIcon } from "@/components/ui/icons";
+import type { Service } from "@/lib/content";
 
+/** A single service row. The whole row links to the service's booking URL
+ *  (falls back to the flagship Fresha) — click the name or the box to book. */
 export function ServiceRow({ service }: { service: Service }) {
+  const href = service.bookingUrl || DEFAULT_FRESHA;
+
   return (
-    <div className="group flex items-baseline gap-4 py-5">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-baseline gap-4 py-5"
+    >
       <div className="flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <h4 className="font-display text-xl uppercase tracking-wide text-ink transition-colors group-hover:text-gold-bright">
@@ -14,10 +26,20 @@ export function ServiceRow({ service }: { service: Service }) {
               Топ
             </span>
           ) : null}
+          {service.tags.map((t) => (
+            <span
+              key={t}
+              className="rounded-full border border-hairline px-2 py-0.5 text-[10px] uppercase tracking-wider text-grey"
+            >
+              {t}
+            </span>
+          ))}
+          <ArrowUpRightIcon className="h-3.5 w-3.5 text-grey/0 transition-colors group-hover:text-gold-bright" />
         </div>
-        <p className="mt-1 max-w-md text-sm leading-relaxed text-grey">
-          {service.description}
-        </p>
+        <RichText
+          html={service.description}
+          className="mt-1 max-w-md text-sm leading-relaxed text-grey"
+        />
       </div>
 
       {/* dotted leader */}
@@ -30,6 +52,6 @@ export function ServiceRow({ service }: { service: Service }) {
         <span className="font-display text-xl text-ink">{formatPrice(service.price)}</span>
         <span className="text-xs text-grey">{formatDuration(service.durationMin)}</span>
       </div>
-    </div>
+    </a>
   );
 }

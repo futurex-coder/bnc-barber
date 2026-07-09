@@ -2,14 +2,14 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "./Logo";
 import { primaryNav } from "@/config/nav";
-import { SITE } from "@/config/site";
-import { locations } from "@/data/site";
+import { getSiteSettings, getLocations } from "@/lib/content";
+import { telHref } from "@/lib/utils";
 import { InstagramIcon, PhoneIcon, MapPinIcon } from "@/components/ui/icons";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 
-export function Footer() {
-  // Server component → evaluated at build; refreshes on each deploy.
+export async function Footer() {
   const year = new Date().getFullYear();
+  const [settings, locations] = await Promise.all([getSiteSettings(), getLocations()]);
   const flagship = locations[0];
 
   return (
@@ -22,7 +22,12 @@ export function Footer() {
               Барбершоп и академия в Русе. Прецизни подстрижки, оформяне на брада
               и обучение по занаята.
             </p>
-            <FreshaButton size="md" variant="outline" label="Запази час" />
+            <FreshaButton
+              href={settings.defaultFreshaUrl}
+              size="md"
+              variant="outline"
+              label="Запази час"
+            />
           </div>
 
           <nav aria-label="Навигация във футъра" className="flex flex-col gap-3">
@@ -40,26 +45,32 @@ export function Footer() {
 
           <div className="flex flex-col gap-3">
             <p className="text-xs uppercase tracking-[0.2em] text-grey">Контакт</p>
-            <a
-              href={SITE.phoneHref}
-              className="inline-flex items-center gap-2 text-sm text-ink/80 transition-colors hover:text-gold-bright"
-            >
-              <PhoneIcon className="h-4 w-4 text-gold" /> {SITE.phone}
-            </a>
-            <span className="inline-flex items-start gap-2 text-sm text-ink/80">
-              <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-              <span>
-                {flagship.addressLine}, {flagship.district}, {flagship.city}
+            {settings.phone ? (
+              <a
+                href={telHref(settings.phone)}
+                className="inline-flex items-center gap-2 text-sm text-ink/80 transition-colors hover:text-gold-bright"
+              >
+                <PhoneIcon className="h-4 w-4 text-gold" /> {settings.phone}
+              </a>
+            ) : null}
+            {flagship ? (
+              <span className="inline-flex items-start gap-2 text-sm text-ink/80">
+                <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                <span>
+                  {flagship.addressLine}, {flagship.district}, {flagship.city}
+                </span>
               </span>
-            </span>
-            <a
-              href={SITE.instagram.shop.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-ink/80 transition-colors hover:text-gold-bright"
-            >
-              <InstagramIcon className="h-4 w-4 text-gold" /> @{SITE.instagram.shop.handle}
-            </a>
+            ) : null}
+            {settings.instagramShop.url ? (
+              <a
+                href={settings.instagramShop.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-ink/80 transition-colors hover:text-gold-bright"
+              >
+                <InstagramIcon className="h-4 w-4 text-gold" /> @{settings.instagramShop.handle}
+              </a>
+            ) : null}
           </div>
 
           <div className="flex flex-col gap-3">
@@ -81,7 +92,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-hairline pt-6 text-xs text-grey sm:flex-row sm:items-center">
           <p>
-            © {year} {SITE.name}. Всички права запазени.
+            © {year} {settings.businessName}. Всички права запазени.
           </p>
           <p className="text-grey">
             Изработка с грижа в Русе · Дизайн &amp; код на място

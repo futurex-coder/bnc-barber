@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { InstagramIcon, ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatDateRange } from "@/lib/utils";
-import type { Guest } from "@/data/site";
+import type { Guest } from "@/lib/content";
 
 export function GuestCard({ guest }: { guest: Guest }) {
   return (
@@ -13,6 +13,7 @@ export function GuestCard({ guest }: { guest: Guest }) {
         aria-label={`${guest.name} — ${guest.discipline}`}
       >
         <SmartImage
+          src={guest.imageUrl || undefined}
           alt={`${guest.name} — ${guest.discipline}`}
           variant={3}
           className="absolute inset-0 grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"

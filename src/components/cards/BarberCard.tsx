@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 import { InstagramIcon } from "@/components/ui/icons";
-import type { Barber } from "@/data/site";
+import type { Barber } from "@/lib/content";
 
 export function BarberCard({ barber }: { barber: Barber }) {
   return (
@@ -14,6 +14,7 @@ export function BarberCard({ barber }: { barber: Barber }) {
       >
         {/* grayscale → colour on hover */}
         <SmartImage
+          src={barber.avatarUrl || undefined}
           alt={`${barber.name} — ${barber.role}`}
           className="absolute inset-0 grayscale transition-all duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-105 group-hover:grayscale-0"
           label={barber.name}
@@ -41,8 +42,7 @@ export function BarberCard({ barber }: { barber: Barber }) {
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-1">
           <FreshaButton
-            barberSlug={barber.slug}
-            locationSlug={barber.locationSlug}
+            href={barber.bookingUrl || barber.locationFreshaUrl}
             size="md"
             variant="outline"
             label={`Запази с ${barber.name}`}
