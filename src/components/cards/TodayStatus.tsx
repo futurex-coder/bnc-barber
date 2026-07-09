@@ -1,6 +1,6 @@
 "use client";
 
-import { type Location } from "@/data/site";
+import { type Location } from "@/lib/content";
 import { useTodayIndex } from "@/lib/useToday";
 import { ClockIcon } from "@/components/ui/icons";
 

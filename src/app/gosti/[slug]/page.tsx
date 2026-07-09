@@ -4,18 +4,17 @@ import Link from "next/link";
 import { Container, Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
+import { RichText } from "@/components/ui/RichText";
 import { RotatingBadge } from "@/components/ui/RotatingBadge";
 import { Button } from "@/components/ui/Button";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { BreadcrumbJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { InstagramIcon, ArrowRightIcon, MapPinIcon } from "@/components/ui/icons";
 import { SITE, SITE_URL } from "@/config/site";
-import { guests, getGuest, getLocation } from "@/data/site";
+import { getGuest, getSiteSettings } from "@/lib/content";
 import { formatDateRange } from "@/lib/utils";
 
-export function generateStaticParams() {
-  return guests.map((g) => ({ slug: g.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -23,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const g = getGuest(slug);
+  const g = await getGuest(slug);
   if (!g) return {};
   const dates = formatDateRange(g.from, g.to);
   const title = `${g.name} — ${g.discipline}`;
@@ -46,9 +45,8 @@ export default async function GuestDetail({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const guest = getGuest(slug);
+  const [guest, settings] = await Promise.all([getGuest(slug), getSiteSettings()]);
   if (!guest) notFound();
-  const loc = getLocation(guest.locationSlug);
   const dates = formatDateRange(guest.from, guest.to);
 
   const schema = {
@@ -61,7 +59,7 @@ export default async function GuestDetail({
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
       "@type": "Place",
-      name: `${SITE.name} — ${loc?.name ?? "Русе"}`,
+      name: `${SITE.name} — ${guest.locationName ?? "Русе"}`,
       address: { "@type": "PostalAddress", addressLocality: "Русе", addressCountry: "BG" },
     },
     performer: { "@type": "Person", name: guest.name },
@@ -95,6 +93,7 @@ export default async function GuestDetail({
             <Reveal className="relative">
               <div className="glow-border relative aspect-[4/5] overflow-hidden rounded-brand">
                 <SmartImage
+                  src={guest.imageUrl || undefined}
                   alt={`${guest.name} — ${guest.discipline}`}
                   variant={3}
                   className="absolute inset-0 grayscale transition-all duration-700 hover:grayscale-0"
@@ -119,39 +118,45 @@ export default async function GuestDetail({
                 </span>
                 <h1 className="font-display text-5xl text-ink sm:text-6xl">{guest.name}</h1>
               </div>
-              <p className="text-lg text-gold-bright">{guest.style}</p>
-              <p className="max-w-md leading-relaxed text-grey">{guest.bio}</p>
+              {guest.style ? <p className="text-lg text-gold-bright">{guest.style}</p> : null}
+              <RichText html={guest.bio} className="max-w-md leading-relaxed text-grey" />
 
-              <div className="flex flex-wrap gap-2">
-                {guest.specialties.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full border border-hairline px-3 py-1 text-xs text-grey"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
+              {guest.specialties.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {guest.specialties.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-hairline px-3 py-1 text-xs text-grey"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
 
               <dl className="flex flex-wrap gap-8 border-y border-hairline py-4">
                 <div>
                   <dt className="text-xs uppercase tracking-wide text-grey">Дати</dt>
                   <dd className="font-display text-2xl text-ink">{dates}</dd>
                 </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-grey">Място</dt>
-                  <dd className="inline-flex items-center gap-1.5 font-display text-2xl text-ink">
-                    <MapPinIcon className="h-4 w-4 text-gold" />
-                    {loc?.name}
-                  </dd>
-                </div>
+                {guest.locationName ? (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-grey">Място</dt>
+                    <dd className="inline-flex items-center gap-1.5 font-display text-2xl text-ink">
+                      <MapPinIcon className="h-4 w-4 text-gold" />
+                      {guest.locationName}
+                    </dd>
+                  </div>
+                ) : null}
               </dl>
 
               <div className="flex flex-wrap items-center gap-3">
-                <Button href={SITE.instagram.shop.url} external variant="gold" size="lg">
-                  <InstagramIcon className="h-4 w-4" />
-                  Запитай за час
-                </Button>
+                {settings.instagramShop.url ? (
+                  <Button href={settings.instagramShop.url} external variant="gold" size="lg">
+                    <InstagramIcon className="h-4 w-4" />
+                    Запитай за час
+                  </Button>
+                ) : null}
                 {guest.instagram ? (
                   <a
                     href={guest.instagram.url}

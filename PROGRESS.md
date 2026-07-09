@@ -9,6 +9,41 @@ academy, Ruse). Fully responsive, Bulgarian copy, two separate booking funnels
 lint. **Lighthouse home desktop: 100 / 100 / 100 / 100.** Branch:
 `feat/site-build`. Run it with `npm run dev`.
 
+## Admin CMS (latest — branch `feat/admin-cms`)
+The site is now **fully editable from an admin at `/admin`**, backed by Supabase
+(Postgres + Auth + Storage). See **[`ADMIN.md`](ADMIN.md)** for the full guide.
+
+- **Supabase project** `bnc-barber` (ref `qqaiagnnebjkzmxfyjvu`, eu-central-1).
+  14 tables + RLS (public read, admin-only write), a `media` storage bucket,
+  and the previous typed content migrated in as seed data.
+- **Editable, no code:** team (order/info/tags/seniority/IG/booking link/location/
+  per-barber gallery/photo), services (tags/price/duration/category/**per-service
+  booking link**), locations (map picker/hours/images/contacts/description/team),
+  academy (settings/modules/gallery/dates), events + guest artists, general
+  gallery (**drag-drop reorder**), about, contacts. All descriptions are **rich
+  text**; images upload to Storage.
+- **Security:** Supabase Auth + Row-Level Security via `is_admin()`. **No secret
+  key in the app** — public pages use the publishable key; writes go through
+  authenticated Server Actions and RLS.
+- **Freshness:** public pages are `force-dynamic` and read from the DB, so admin
+  edits appear immediately.
+- **Verified live:** login, edit-persists-and-shows, Storage upload, dnd reorder.
+  Clean `tsc` / `eslint` / `next build`.
+- **Login:** `/admin` · `yoan.sv.dimitrov@gmail.com` · `BncBarber2026!` (change it).
+
+### To go live
+Branch `feat/admin-cms` is pushed. Open the PR and merge to `main`:
+`https://github.com/futurex-coder/bnc-barber/pull/new/feat/admin-cms`
+The build needs **no Vercel env config** — the public Supabase URL/key are baked
+in as fallbacks (env vars still override). Rollback is one click in Vercel.
+
+### NEEDS YOU (CMS)
+- Merge the PR to deploy to production.
+- Change the admin password after first login.
+- (Optional) In Supabase → Auth, enable leaked-password protection.
+- Upload real photos (team/locations/academy/guests/gallery) — slots fall back to
+  on-brand gradients until then.
+
 ## Follow-up round (per later requests)
 - **Atmospheric background** — replaced flat black with a fixed cinematic layer:
   slow-drifting gold/oxblood auroras, dot grid, grain, vignette. Still AA.

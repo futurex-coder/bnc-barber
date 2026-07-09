@@ -6,9 +6,10 @@ import { GuestCard } from "@/components/cards/GuestCard";
 import { EventsTimeline } from "@/components/sections/EventsTimeline";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Button } from "@/components/ui/Button";
-import { guests } from "@/data/site";
-import { SITE } from "@/config/site";
+import { getGuests, getSiteSettings } from "@/lib/content";
 import { InstagramIcon } from "@/components/ui/icons";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Събития & гости",
@@ -22,7 +23,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SabitiyaPage() {
+export default async function SabitiyaPage() {
+  const [guests, settings] = await Promise.all([getGuests(), getSiteSettings()]);
+
   return (
     <>
       <PageHeader
@@ -34,32 +37,36 @@ export default function SabitiyaPage() {
         }
         lead="Каним гостуващи тату артисти и барбери за ограничени резиденции, правим отворени дни и събития. Местата се пълнят бързо — следи датите."
       >
-        <Button href={SITE.instagram.shop.url} external variant="outline" size="lg">
-          <InstagramIcon className="h-4 w-4" />
-          Следи в Instagram
-        </Button>
+        {settings.instagramShop.url ? (
+          <Button href={settings.instagramShop.url} external variant="outline" size="lg">
+            <InstagramIcon className="h-4 w-4" />
+            Следи в Instagram
+          </Button>
+        ) : null}
       </PageHeader>
 
-      <Section>
-        <Container className="flex flex-col gap-12">
-          <SectionHeader
-            eyebrow="Резиденции"
-            title={
-              <>
-                Гост <span className="accent text-gold-gradient">артисти.</span>
-              </>
-            }
-            lead="Всеки гост е с обявени дати и ограничени часове. Запитай през Instagram или на място."
-          />
-          <RevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {guests.map((g) => (
-              <RevealItem key={g.slug}>
-                <GuestCard guest={g} />
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </Container>
-      </Section>
+      {guests.length ? (
+        <Section>
+          <Container className="flex flex-col gap-12">
+            <SectionHeader
+              eyebrow="Резиденции"
+              title={
+                <>
+                  Гост <span className="accent text-gold-gradient">артисти.</span>
+                </>
+              }
+              lead="Всеки гост е с обявени дати и ограничени часове. Запитай през Instagram или на място."
+            />
+            <RevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {guests.map((g) => (
+                <RevealItem key={g.slug}>
+                  <GuestCard guest={g} />
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </Container>
+        </Section>
+      ) : null}
 
       <Section hairline>
         <Container className="flex flex-col gap-12">

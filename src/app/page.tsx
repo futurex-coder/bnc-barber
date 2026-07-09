@@ -12,6 +12,8 @@ import { InstagramGrid } from "@/components/sections/InstagramGrid";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <>

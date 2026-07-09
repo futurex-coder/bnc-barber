@@ -4,7 +4,9 @@ import { Container, Section } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { LocationCard } from "@/components/cards/LocationCard";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { locations } from "@/data/site";
+import { getLocations } from "@/lib/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Локации",
@@ -18,7 +20,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LokaciiPage() {
+export default async function LokaciiPage() {
+  const locations = await getLocations();
   return (
     <>
       <PageHeader

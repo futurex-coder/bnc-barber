@@ -5,6 +5,8 @@ import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Услуги & цени",
   description:

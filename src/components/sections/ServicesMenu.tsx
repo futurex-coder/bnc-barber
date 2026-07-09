@@ -2,15 +2,23 @@ import { Container, Section, SectionHeader } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { ServiceRow } from "@/components/cards/ServiceRow";
 import { FreshaButton } from "@/components/booking/FreshaButton";
-import { services, type Service } from "@/data/site";
+import { getServices } from "@/lib/content";
 
-const ORDER: Service["category"][] = ["Коса", "Брада", "Комбо"];
+export async function ServicesMenu() {
+  const services = await getServices();
 
-export function ServicesMenu() {
-  const grouped = ORDER.map((cat) => ({
-    cat,
-    items: services.filter((s) => s.category === cat),
-  })).filter((g) => g.items.length);
+  // Group by category, preserving the admin-defined order (first appearance).
+  const cats: string[] = [];
+  for (const s of services) {
+    const c = s.category || "Услуги";
+    if (!cats.includes(c)) cats.push(c);
+  }
+  const grouped = cats
+    .map((cat) => ({
+      cat,
+      items: services.filter((s) => (s.category || "Услуги") === cat),
+    }))
+    .filter((g) => g.items.length);
 
   return (
     <Section id="uslugi" hairline>
@@ -37,7 +45,7 @@ export function ServicesMenu() {
               </h3>
               <div className="flex flex-col divide-y divide-hairline">
                 {g.items.map((s) => (
-                  <ServiceRow key={s.name} service={s} />
+                  <ServiceRow key={s.id} service={s} />
                 ))}
               </div>
             </Reveal>

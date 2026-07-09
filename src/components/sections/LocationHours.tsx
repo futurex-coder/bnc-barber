@@ -1,6 +1,6 @@
 "use client";
 
-import { type Location } from "@/data/site";
+import { type Location } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { useTodayIndex } from "@/lib/useToday";
 

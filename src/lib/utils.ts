@@ -8,6 +8,15 @@ export function formatPrice(bgn: number): string {
   return `${bgn} лв.`;
 }
 
+/** Build a `tel:` href from a human phone string (BG-aware: 0xxx → +359xxx). */
+export function telHref(phone: string): string {
+  const digits = (phone || "").replace(/[^\d+]/g, "");
+  if (!digits) return "tel:";
+  if (digits.startsWith("+")) return `tel:${digits}`;
+  if (digits.startsWith("0")) return `tel:+359${digits.slice(1)}`;
+  return `tel:${digits}`;
+}
+
 /** Format a duration in minutes as "45 мин". */
 export function formatDuration(min: number): string {
   return `${min} мин`;

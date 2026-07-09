@@ -5,8 +5,10 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { InstagramGrid } from "@/components/sections/InstagramGrid";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { galleryItems } from "@/data/site";
+import { getGallery } from "@/lib/content";
 import { cn } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Галерия",
@@ -20,7 +22,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GaleriyaPage() {
+// On-brand gradient placeholders shown until real photos are uploaded in the admin.
+const PLACEHOLDERS = Array.from({ length: 9 }).map((_, i) => ({
+  id: `g-${i + 1}`,
+  alt: `Галерия Bonnie & Clyde — снимка ${i + 1}`,
+  tall: i % 4 === 0,
+}));
+
+export default async function GaleriyaPage() {
+  const gallery = await getGallery();
+  const items = gallery.length ? gallery : PLACEHOLDERS.map((p) => ({ ...p, url: "" }));
+
   return (
     <>
       <PageHeader
@@ -36,7 +48,7 @@ export default function GaleriyaPage() {
       <Section>
         <Container>
           <RevealGroup className="columns-2 gap-4 md:columns-3 [&>*]:mb-4">
-            {galleryItems.map((g, i) => (
+            {items.map((g, i) => (
               <RevealItem key={g.id} className="break-inside-avoid">
                 <div
                   className={cn(
@@ -45,6 +57,7 @@ export default function GaleriyaPage() {
                   )}
                 >
                   <SmartImage
+                    src={g.url || undefined}
                     alt={g.alt}
                     variant={((i % 3) + 1) as 1 | 2 | 3}
                     className="absolute inset-0"

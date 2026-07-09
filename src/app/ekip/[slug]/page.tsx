@@ -2,18 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Container, Section } from "@/components/ui/Section";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
+import { RichText } from "@/components/ui/RichText";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { BreadcrumbJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { InstagramIcon, ArrowRightIcon } from "@/components/ui/icons";
 import { SITE, SITE_URL } from "@/config/site";
-import { barbers, getBarber, getLocation } from "@/data/site";
+import { getBarber } from "@/lib/content";
 
-export function generateStaticParams() {
-  return barbers.map((b) => ({ slug: b.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -21,7 +20,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const b = getBarber(slug);
+  const b = await getBarber(slug);
   if (!b) return {};
   const title = `${b.name} — ${b.role}`;
   const description = `${b.name}: ${b.tagline} Запази час в Bonnie & Clyde, Русе.`;
@@ -43,9 +42,8 @@ export default async function BarberDetail({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const barber = getBarber(slug);
+  const barber = await getBarber(slug);
   if (!barber) notFound();
-  const loc = getLocation(barber.locationSlug);
 
   const personSchema = {
     "@context": "https://schema.org",
@@ -83,6 +81,7 @@ export default async function BarberDetail({
             <Reveal>
               <div className="group relative aspect-[4/5] overflow-hidden rounded-brand border border-hairline">
                 <SmartImage
+                  src={barber.avatarUrl || barber.images[0]?.url || undefined}
                   alt={`${barber.name} — ${barber.role}`}
                   className="absolute inset-0 grayscale transition-all duration-700 group-hover:grayscale-0"
                   label={barber.name}
@@ -93,39 +92,40 @@ export default async function BarberDetail({
 
             <Reveal className="flex flex-col gap-5">
               <div className="flex flex-col gap-1">
-                <span className="text-sm uppercase tracking-[0.2em] text-gold">
-                  {barber.role}
-                </span>
+                <span className="text-sm uppercase tracking-[0.2em] text-gold">{barber.role}</span>
                 <h1 className="font-display text-5xl text-ink sm:text-6xl">{barber.name}</h1>
               </div>
-              <p className="max-w-md text-lg leading-relaxed text-grey">{barber.bio}</p>
+              <RichText html={barber.bio} className="max-w-md text-lg leading-relaxed text-grey" />
 
-              <div className="flex flex-wrap gap-2">
-                {barber.specialties.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full border border-hairline px-3 py-1 text-xs text-grey"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
+              {barber.specialties.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {barber.specialties.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-hairline px-3 py-1 text-xs text-grey"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
 
               <dl className="flex gap-8 border-y border-hairline py-4">
                 <div>
                   <dt className="text-xs uppercase tracking-wide text-grey">Опит</dt>
                   <dd className="font-display text-2xl text-ink">{barber.yearsExperience}+ г.</dd>
                 </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-grey">Локация</dt>
-                  <dd className="font-display text-2xl text-ink">{loc?.name}</dd>
-                </div>
+                {barber.locationName ? (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-grey">Локация</dt>
+                    <dd className="font-display text-2xl text-ink">{barber.locationName}</dd>
+                  </div>
+                ) : null}
               </dl>
 
               <div className="flex flex-wrap items-center gap-3">
                 <FreshaButton
-                  barberSlug={barber.slug}
-                  locationSlug={barber.locationSlug}
+                  href={barber.bookingUrl || barber.locationFreshaUrl}
                   size="lg"
                   label={`Запази с ${barber.name}`}
                 />
@@ -142,6 +142,24 @@ export default async function BarberDetail({
               </div>
             </Reveal>
           </div>
+
+          {barber.images.length ? (
+            <RevealGroup className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {barber.images.map((img, i) => (
+                <RevealItem key={i}>
+                  <div className="relative aspect-square overflow-hidden rounded-brand border border-hairline">
+                    <SmartImage
+                      src={img.url}
+                      alt={img.alt || `${barber.name} — работа ${i + 1}`}
+                      variant={((i % 3) + 1) as 1 | 2 | 3}
+                      className="absolute inset-0"
+                      label={barber.name}
+                    />
+                  </div>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          ) : null}
         </Container>
       </Section>
 

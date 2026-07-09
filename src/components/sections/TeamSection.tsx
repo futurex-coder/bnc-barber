@@ -2,10 +2,13 @@ import { Container, Section, SectionHeader } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { BarberCard } from "@/components/cards/BarberCard";
-import { barbers } from "@/data/site";
+import { getBarbers } from "@/lib/content";
 import { ArrowRightIcon } from "@/components/ui/icons";
 
-export function TeamSection() {
+export async function TeamSection() {
+  const barbers = await getBarbers();
+  if (!barbers.length) return null;
+
   return (
     <Section id="ekip" hairline>
       <Container className="flex flex-col gap-12">

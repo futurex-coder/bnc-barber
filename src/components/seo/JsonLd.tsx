@@ -1,5 +1,6 @@
 import { SITE, SITE_URL } from "@/config/site";
-import { locations, aggregateRating, type Location } from "@/data/site";
+import { aggregateRating } from "@/data/site";
+import { getLocations, type Location } from "@/lib/content";
 
 function JsonLdScript({ data }: { data: unknown }) {
   return (
@@ -90,24 +91,22 @@ export function hairSalonSchema(loc: Location) {
 }
 
 /** Organization + primary business, rendered site-wide in the root layout. */
-export function OrganizationJsonLd() {
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${SITE_URL}#org`,
-        name: SITE.name,
-        url: SITE_URL,
-        telephone: SITE.phoneE164,
-        logo: `${SITE_URL}/opengraph-image`,
-        image: `${SITE_URL}/opengraph-image`,
-        sameAs: [SITE.instagram.shop.url, SITE.instagram.barber.url],
-      },
-      hairSalonSchema(locations[0]),
-    ],
-  };
-  return <JsonLdScript data={data} />;
+export async function OrganizationJsonLd() {
+  const locations = await getLocations();
+  const graph: unknown[] = [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}#org`,
+      name: SITE.name,
+      url: SITE_URL,
+      telephone: SITE.phoneE164,
+      logo: `${SITE_URL}/opengraph-image`,
+      image: `${SITE_URL}/opengraph-image`,
+      sameAs: [SITE.instagram.shop.url, SITE.instagram.barber.url],
+    },
+  ];
+  if (locations[0]) graph.push(hairSalonSchema(locations[0]));
+  return <JsonLdScript data={{ "@context": "https://schema.org", "@graph": graph }} />;
 }
 
 export function LocationJsonLd({ loc }: { loc: Location }) {

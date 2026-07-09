@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/config/site";
-import { locations, barbers, guests } from "@/data/site";
+import { getLocations, getBarbers, getGuests } from "@/lib/content";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/lokacii",
@@ -16,6 +16,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const now = new Date();
+
+  const [locations, barbers, guests] = await Promise.all([
+    getLocations(),
+    getBarbers(),
+    getGuests(),
+  ]);
 
   const pages: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${SITE_URL}${route}`,

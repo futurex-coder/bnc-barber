@@ -6,12 +6,11 @@ import { RotatingBadge } from "@/components/ui/RotatingBadge";
 import { Button } from "@/components/ui/Button";
 import { InstagramIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatDateRange } from "@/lib/utils";
-import { featuredGuest } from "@/data/site";
-import { SITE } from "@/config/site";
+import { featuredGuest, getSiteSettings } from "@/lib/content";
 
 /** The "fancy part": a spotlight on the featured guest (tattoo artist). */
-export function GuestSpotlight() {
-  const guest = featuredGuest();
+export async function GuestSpotlight() {
+  const [guest, settings] = await Promise.all([featuredGuest(), getSiteSettings()]);
   if (!guest) return null;
 
   return (
@@ -34,6 +33,7 @@ export function GuestSpotlight() {
           <Reveal className="relative order-2 lg:order-1">
             <div className="glow-border relative aspect-[4/5] overflow-hidden rounded-brand">
               <SmartImage
+                src={guest.imageUrl || undefined}
                 alt={`${guest.name} — ${guest.discipline}`}
                 variant={3}
                 className="absolute inset-0 grayscale transition-all duration-700 hover:grayscale-0"
@@ -89,15 +89,17 @@ export function GuestSpotlight() {
                 Всички гости &amp; събития
                 <ArrowUpRightIcon className="h-4 w-4" />
               </Button>
-              <a
-                href={SITE.instagram.shop.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="grid h-14 w-14 place-items-center rounded-full border border-hairline text-grey transition-colors hover:border-gold hover:text-gold-bright"
-              >
-                <InstagramIcon className="h-5 w-5" />
-              </a>
+              {settings.instagramShop.url ? (
+                <a
+                  href={settings.instagramShop.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="grid h-14 w-14 place-items-center rounded-full border border-hairline text-grey transition-colors hover:border-gold hover:text-gold-bright"
+                >
+                  <InstagramIcon className="h-5 w-5" />
+                </a>
+              ) : null}
             </Reveal>
           </div>
         </div>

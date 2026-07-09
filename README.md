@@ -34,17 +34,22 @@ Set `REDUCED=1` to capture with `prefers-reduced-motion`.
 
 ## Where the content lives
 
-**All editable content is typed and centralised — no copy is hardcoded in JSX.**
+**Most content is now managed through the built-in admin (CMS) at [`/admin`](https://bnc-barber.vercel.app/admin), backed by Supabase.** See [`ADMIN.md`](ADMIN.md) for login, sections, and setup.
+
+Editable through the admin (stored in Supabase): locations, team/barbers (+ galleries),
+services, academy (settings, modules, gallery), events, guest artists, the general
+gallery, the About page, and contacts/site settings. Public pages read from the DB via
+[`src/lib/content.ts`](src/lib/content.ts) and are `force-dynamic`, so edits appear
+immediately.
+
+Still typed in code (not in the CMS):
 
 | File | What it holds |
 | --- | --- |
-| [`src/data/site.ts`](src/data/site.ts) | Locations, barbers, services, academy modules, events, reviews, stats, gallery, FAQ. |
-| [`src/config/site.ts`](src/config/site.ts) | Business name, phone, email, Instagram handles, site URL. |
-| [`src/config/booking.ts`](src/config/booking.ts) | **Single source of truth for every booking URL.** |
+| [`src/data/site.ts`](src/data/site.ts) | Reviews, aggregate rating, stats counters, FAQ, Instagram grid fallback. |
+| [`src/config/site.ts`](src/config/site.ts) | SEO/metadata defaults (title templates, OG). Visible phone/IG/address come from the CMS. |
+| [`src/config/booking.ts`](src/config/booking.ts) | Fallback Fresha/Cal.com URLs. Per-location/-barber/-service links live in the CMS. |
 | [`src/config/nav.ts`](src/config/nav.ts) | Primary navigation items. |
-
-To change text, prices, hours, team, etc., edit `src/data/site.ts`. Types guard
-the shape, so `npm run typecheck` will catch mistakes.
 
 ### Swapping booking links
 
