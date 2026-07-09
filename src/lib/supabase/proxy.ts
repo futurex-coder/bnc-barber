@@ -4,52 +4,35 @@ import type { Database } from "./types";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config";
 
 /**
- * Refreshes the Supabase auth session and optimistically guards /admin.
- * Run from the root Proxy (src/proxy.ts). The authoritative admin check lives
- * in the /admin layout (rpc `is_admin`); this is just a fast redirect.
+ * Refreshes the Supabase auth session and keeps cookies fresh. It performs NO
+ * redirects — doing auth redirects here (while also gating in the /admin layout)
+ * caused a redirect loop on Vercel, because a `NextResponse.redirect` drops the
+ * refreshed auth cookies. The /admin layout is the single authoritative gate.
  */
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient<Database>(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          response = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          );
-        },
+  const supabase = createServerClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+        response = NextResponse.next({ request });
+        cookiesToSet.forEach(({ name, value, options }) =>
+          response.cookies.set(name, value, options),
+        );
       },
     },
-  );
+  });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { pathname } = request.nextUrl;
-  const isLogin = pathname === "/admin/login";
-
-  if (!isLogin && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
-    url.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(url);
-  }
-
-  if (isLogin && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin";
-    return NextResponse.redirect(url);
+  // Touch the session so expiring tokens rotate and the refreshed cookies are
+  // written onto `response`. Never throw out of the proxy.
+  try {
+    await supabase.auth.getUser();
+  } catch {
+    // ignore — the layout will handle auth state
   }
 
   return response;

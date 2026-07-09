@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button, Input, Field } from "@/components/admin/ui";
 import { ScissorsIcon } from "@/components/ui/icons";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,17 +15,22 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setLoading(false);
+        setError("Грешен имейл или парола.");
+        return;
+      }
+      // Hard navigation so the server reads the freshly-set session cookie.
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get("redirect") || "/admin";
+      window.location.assign(redirect.startsWith("/admin") ? redirect : "/admin");
+    } catch {
       setLoading(false);
-      setError("Грешен имейл или парола.");
-      return;
+      setError("Възникна грешка. Опитай пак.");
     }
-    const redirect =
-      new URLSearchParams(window.location.search).get("redirect") || "/admin";
-    router.replace(redirect);
-    router.refresh();
   }
 
   return (
