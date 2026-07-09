@@ -86,13 +86,22 @@ the layout already matches a 6-up grid.
 
 ## Routes
 
-`/` · `/lokacii` · `/lokacii/[slug]` · `/ekip` · `/uslugi` · `/akademiya` ·
-`/galeriya` · `/za-nas` · `/kontakti` · custom `not-found`.
+`/` · `/lokacii` · `/lokacii/[slug]` · `/ekip` · `/ekip/[slug]` (per-barber
+profiles) · `/uslugi` · `/akademiya` · `/sabitiya` (events & tattoo guests) ·
+`/gosti/[slug]` (guest residency pages) · `/galeriya` · `/za-nas` · `/kontakti`
+· custom `not-found`.
 
-Dynamic OG images via `next/og`: site-wide (`/opengraph-image`) and per location
-(`/lokacii/[slug]/opengraph-image`). `sitemap.xml` and `robots.txt` are
-generated. JSON-LD: `Organization` + `HairSalon`/`LocalBusiness` per location,
-`BreadcrumbList`, and `FAQPage`.
+Dynamic OG images via `next/og`: site-wide, **per location, per barber, and per
+guest**. `sitemap.xml` and `robots.txt` are generated. JSON-LD: `Organization` +
+`HairSalon`/`LocalBusiness` per location, `Person` per barber, `Event` per guest
+residency, `BreadcrumbList`, and `FAQPage`.
+
+### Guests & events
+
+`src/data/site.ts` → `guests` (tattoo artists + guest barbers, with residency
+dates/styles) and `events`. The home **GuestSpotlight** features the flagged
+`featured` guest; `/sabitiya` lists all guests plus an **EventsTimeline** that
+merges events + residencies, sorts by date, and drops past ones client-side.
 
 ---
 
@@ -111,6 +120,13 @@ Tokens live in [`src/app/globals.css`](src/app/globals.css) under Tailwind v4
   `usePrefersReducedMotion` hook, `MotionConfig reducedMotion="user"`, and CSS
   `@media` rules. Above-the-fold hero reveals are CSS-driven so they don't gate
   LCP behind hydration.
+- **Atmospheric background** (`SiteBackground` + `.site-bg` in globals.css): a
+  fixed layer of slow-drifting gold/oxblood auroras, a dot grid, grain and a
+  vignette — dark enough to keep text AA. Not flat black.
+- **Motion touches**: route transitions (`app/template.tsx`, first paint skips
+  the animation so LCP is safe), a nav scroll-progress line, magnetic CTAs
+  (`Magnetic`), and a cursor-following card glow (`CardGlow` + `.card-glow`,
+  one delegated listener, off on touch). All reduced-motion aware.
 
 ---
 

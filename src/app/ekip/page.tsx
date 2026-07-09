@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Container, Section } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { FreshaButton } from "@/components/booking/FreshaButton";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { InstagramIcon } from "@/components/ui/icons";
+import { InstagramIcon, ArrowRightIcon } from "@/components/ui/icons";
 import { barbers, getLocation } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -63,7 +64,14 @@ export default function EkipPage() {
                     <span className="text-sm uppercase tracking-[0.2em] text-gold">
                       {b.role}
                     </span>
-                    <h2 className="font-display text-4xl text-ink sm:text-5xl">{b.name}</h2>
+                    <h2 className="font-display text-4xl text-ink sm:text-5xl">
+                      <Link
+                        href={`/ekip/${b.slug}`}
+                        className="transition-colors hover:text-gold-bright"
+                      >
+                        {b.name}
+                      </Link>
+                    </h2>
                   </div>
                   <p className="max-w-md text-lg leading-relaxed text-grey">{b.bio}</p>
 
@@ -109,6 +117,13 @@ export default function EkipPage() {
                       </a>
                     ) : null}
                   </div>
+                  <Link
+                    href={`/ekip/${b.slug}`}
+                    className="inline-flex w-fit items-center gap-1.5 text-sm text-grey transition-colors hover:text-gold-bright"
+                  >
+                    Отвори профила на {b.name}
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </Link>
                 </RevealItem>
               </RevealGroup>
             );

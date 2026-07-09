@@ -4,10 +4,26 @@ Autonomous overnight build log. Read this first in the morning.
 
 ## TL;DR
 A complete, production-ready Next.js 16 site for Bonnie & Clyde (barbershop +
-academy, Ruse). All 9 routes built, fully responsive, Bulgarian copy, two
-separate booking funnels (Fresha + Cal.com), full SEO/OG/JSON-LD, tests passing,
-clean build/typecheck/lint. **Lighthouse home desktop: 98 / 100 / 100 / 100.**
-Branch: `feat/site-build`. Run it with `npm run dev`.
+academy, Ruse). Fully responsive, Bulgarian copy, two separate booking funnels
+(Fresha + Cal.com), full SEO/OG/JSON-LD, tests passing, clean build/typecheck/
+lint. **Lighthouse home desktop: 100 / 100 / 100 / 100.** Branch:
+`feat/site-build`. Run it with `npm run dev`.
+
+## Follow-up round (per later requests)
+- **Atmospheric background** — replaced flat black with a fixed cinematic layer:
+  slow-drifting gold/oxblood auroras, dot grid, grain, vignette. Still AA.
+- **Tattoo guests & events (the "fancy part")** — `guests` data (tattoo artists
+  + guest barbers with residency dates/styles); home **GuestSpotlight**
+  (glow-border portrait + rotating GUEST badge + featured guest); `/sabitiya`
+  page with guest cards + an animated **EventsTimeline** (merges events +
+  residencies, oxblood=guest / gold=event, filters past); `/gosti/[slug]` guest
+  pages with per-guest OG cards + `Event` JSON-LD.
+- **Every team member has its own page** — `/ekip/[slug]` barber profiles (+ OG,
+  `Person` JSON-LD); guests get `/gosti/[slug]`. Linked from home cards and the
+  `/ekip` overview.
+- **Professional motion** — route transitions (LCP-safe), nav scroll-progress
+  line, magnetic CTAs, cursor-following card glow. All reduced-motion aware.
+- Result: home desktop Lighthouse rose to **100 / 100 / 100 / 100**.
 
 ## What I built
 - **Foundation** — Next 16 App Router + TS strict + Tailwind v4 (`@theme`
@@ -54,12 +70,13 @@ Branch: `feat/site-build`. Run it with `npm run dev`.
 ## Lighthouse scores (home `/`, production build)
 | Category | Desktop | Mobile |
 | --- | --- | --- |
-| Performance | **98** | 89 |
+| Performance | **100** | 89 |
 | Accessibility | **100** | **100** |
 | Best Practices | **100** | **100** |
 | SEO | **100** | **100** |
 
-- Desktop meets the ≥95 bar on all four.
+- Desktop is a perfect 100 on all four (the CSS-driven hero + atmospheric CSS
+  background actually improved it from 98).
 - Mobile Performance is 89: FCP 1.0s, TBT ~40ms, CLS 0 — the only drag is LCP
   (~3.8s under Lighthouse's simulated slow-4G + 4× CPU), bound by the Cyrillic
   **Oswald** display-font swap on the huge hero headline. I kept `display:swap`
@@ -87,6 +104,8 @@ Branch: `feat/site-build`. Run it with `npm run dev`.
 - **"Център" location**: real address, hours, map coords (now "Очаквай скоро").
 - **Barbers**: Мартин & Крис are placeholders (names, bios, personal Instagram/
   Fresha links). Alex/Алекс (@alexx_cutzz) is real.
+- **Guest artists** (`guests` in site.ts): all placeholders — real tattoo/guest
+  names, styles, residency dates, photos and Instagram handles to swap in.
 - **Academy**: real price, cohort dates, curriculum specifics.
 - **Reviews**: real Google/Fresha text + authors; sync `aggregateRating.count`.
 - **Instagram**: live-feed key (EmbedSocial/Elfsight/IG API). Static grid is the

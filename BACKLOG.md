@@ -13,6 +13,11 @@ Everything in the original scope is **done**. See PROGRESS.md for details.
       (site + per location + per barber), JSON-LD
       (Org/HairSalon/Person/Breadcrumb/FAQ), sitemap, robots
 - [x] Per-barber profile pages `/ekip/[slug]` with shareable OG cards
+- [x] Atmospheric background (auroras / grid / grain / vignette — not flat black)
+- [x] Tattoo guests & events: home spotlight, `/sabitiya`, `/gosti/[slug]`,
+      animated events timeline, per-guest OG + Event JSON-LD
+- [x] Professional motion: route transitions, scroll-progress, magnetic CTAs,
+      cursor-following card glow (all reduced-motion aware)
 - [x] A11y: skip link, focus-trapped drawer, contrast AA, reduced-motion,
       keyboard nav — Lighthouse a11y 100
 - [x] Vitest units + Playwright smoke (incl. reduced-motion regression)
