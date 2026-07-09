@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+// tailwind-merge cn: callers pass `absolute inset-0`, which must override the
+// wrapper's default `relative` (a plain join leaves both → wrapper collapses).
+import { cn } from "@/lib/cn";
 
 /**
  * Image slot that always looks intentional. If `src` is provided it renders
