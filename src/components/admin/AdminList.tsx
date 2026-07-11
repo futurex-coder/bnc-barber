@@ -40,7 +40,7 @@ export function AdminList({
       items={items}
       onReorder={onReorder}
       renderRow={(it) => (
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
           {it.thumb !== undefined ? (
             it.thumb ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -53,23 +53,31 @@ export function AdminList({
               <div className="img-fallback h-11 w-11 shrink-0 rounded-lg border border-hairline" />
             )
           ) : null}
-          <div className="min-w-0 flex-1">
-            <p className="flex items-center gap-2 truncate font-medium text-ink">
-              {it.title}
-              {it.badge ? <Badge className="border-gold/30 text-gold">{it.badge}</Badge> : null}
+          <div className="min-w-0 flex-1 basis-40">
+            <p className="flex items-center gap-2 font-medium text-ink">
+              <span className="truncate">{it.title}</span>
+              {it.badge ? (
+                <Badge className="shrink-0 border-gold/30 text-gold">{it.badge}</Badge>
+              ) : null}
             </p>
             {it.subtitle ? (
               <p className="truncate text-sm text-grey">{it.subtitle}</p>
             ) : null}
           </div>
-          <Link
-            href={it.editHref}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-hairline px-3 py-1.5 text-xs text-grey transition-colors hover:border-gold hover:text-gold-bright"
-          >
-            <Pencil className="h-3.5 w-3.5" />
-            Редакция
-          </Link>
-          <DeleteButton onDelete={() => onDelete(it.id)} />
+          {/* Actions: their own full-width row on mobile, inline from sm up. */}
+          <div className="flex w-full items-center gap-2 sm:w-auto">
+            <Link
+              href={it.editHref}
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-hairline px-3 py-2 text-xs text-grey transition-colors hover:border-gold hover:text-gold-bright sm:flex-none sm:py-1.5"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+              Редакция
+            </Link>
+            <DeleteButton
+              onDelete={() => onDelete(it.id)}
+              className="flex-1 py-2 sm:flex-none sm:py-1.5"
+            />
+          </div>
         </div>
       )}
     />

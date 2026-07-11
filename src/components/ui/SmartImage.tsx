@@ -1,5 +1,10 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+// Use the tailwind-merge combiner (not the plain join in @/lib/utils): callers
+// pass `absolute inset-0` to make the wrapper fill its positioned parent, and
+// that must override the wrapper's default `relative`. With a plain join both
+// classes survive and Tailwind's source order lets `relative` win, collapsing
+// the wrapper to height 0 and hiding every image. twMerge keeps the last one.
+import { cn } from "@/lib/cn";
 
 /**
  * Image slot that always looks intentional. If `src` is provided it renders
