@@ -50,6 +50,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* iOS Safari (and Android WebView) auto-zoom the viewport whenever a focused
+   form control has a font-size below 16px. Several inputs use text-sm (14px),
+   which triggers the zoom-on-keyboard the user reported. Forcing 16px on
+   coarse-pointer (touch) devices only removes the zoom without changing the
+   denser desktop styling. */
+@media (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────
    Atmospheric site background — fixed layer behind all content.
    Not flat black: a deep charcoal wash, slow-drifting gold/oxblood
